@@ -1,4 +1,4 @@
-#' Breusch-Pagan heteroskedasticity test
+#' LM test for heteroskedasticity
 #'
 #' @param model an \code{lm}  object.
 #' @param var an one-sided formula for the variance function. If \code{NULL}
@@ -21,16 +21,22 @@
 #' data("hprice1")
 #'
 #' mod <- lm(price ~ sqrft + lotsize + bdrms, data = hprice1)
-#' bp_test(mod)
+#' het_test(mod)
 #'
 #' @export
-bp_test <- function(model, var = NULL, chisq = FALSE) {
-  method <- "Breusch-Pagan heteroskedasticity test"
+het_test <- function(model, var = NULL, chisq = FALSE) {
   if(is.null(var)) {
     Z <- stats::model.matrix(model)
+    var_str <- paste0(" all covariates")
   } else {
     mf <- stats::model.frame(var, data = model$model)
     Z <- stats::model.matrix(var, mf)
+    var_str <- paste0(": ", deparse1(var))
   }
-  het_lm_test(model, Z, method, chisq)
+  tst <- het_lm_test(model, Z, chisq)
+  tst$method <- "LM test for heteroskedasticity"
+  tst$data.name <- paste0("Auxiliary regression of squared residuals from:\n  ",
+                          model_call(model), "\n",
+                          "on", var_str, ".\n\n")
+  tst
 }

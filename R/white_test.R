@@ -1,75 +1,3 @@
-
-lm_test_F <- function(stat, df1, df2, method, data.name) {
-  structure(list(statistic = c(F = stat),
-                 p.value = stats::pf(stat, df1, df2, lower.tail = FALSE),
-                 parameter = c(df1 = df1, df2 = df2),
-                 method = method,
-                 data.name = data.name),
-            class = "htest")
-}
-
-lm_test_chisq <- function(chisq, df, method, data.name) {
-  structure(list(statistic = c(Chi2 = chisq),
-                 p.value = stats::pchisq(chisq, df, lower.tail = FALSE),
-                 parameter = c(df = df),
-                 method = method,
-                 data.name = data.name),
-            class = "htest")
-}
-
-het_lm_test <- function(model, Z, method, chisq = FALSE) {
-  data.name <- substitute(model)
-  y <- stats::resid(model)^2
-  aux <- stats::.lm.fit(Z, y)
-
-  SST <- sum((y-mean(y))^2)
-  SSR <- sum(stats::resid(aux)^2)
-  N <- length(y)
-  k <- aux$rank - 1
-  if(chisq) {
-    Rsq <- 1 - SSR / SST
-    lm_test <-
-      lm_test_chisq(N * Rsq, k,
-                    method = method,
-                    data.name = data.name)
-  } else {
-    df2 <- N - k - 1
-    Fstat <- ((SST - SSR) / k)/(SSR / df2)
-    lm_test <-
-      lm_test_F(Fstat, k, df2,
-                method = method,
-                data.name = data.name)
-  }
-
-  lm_test
-}
-
-# Build a matrix with the model regressors, their squares and, opotionally,
-# their cross-products
-white_test_model_matrix <- function(model, full = TRUE) {
-  vars <- stats::model.matrix(model)
-
-  # Do no include the intercept, if there is one
-  Xidx <- attr(vars, "assign") != 0
-  X <- vars[, Xidx, drop = FALSE]
-  sq_X <- X * X
-
-  # Compute cross-products if there are two regressors at least
-  k <- ncol(X)
-  if (full && k > 1) {
-    cross_X <- matrix(nrow = nrow(X), ncol = k * (k - 1) / 2)
-    nc <- 1
-    for (i in 1:(k - 1)) {
-      for(j in (i + 1):k) {
-        cross_X[, nc] <- X[, i] * X[, j]
-        nc <- nc + 1
-      }
-    }
-    sq_X <- cbind(sq_X, cross_X)
-  }
-  cbind(vars, sq_X)
-}
-
 #' White's heteroskedasticity test
 #'
 #' Compute the heteroskedasticity test proposed by White, H. (1980): "A
@@ -103,9 +31,42 @@ white_test_model_matrix <- function(model, full = TRUE) {
 #'
 #' @export
 white_test <- function(model, full = TRUE, chisq = FALSE) {
-  method <- "White heteroskedasticity test"
   if (!full)
-    method <- paste(method, "(without cross products)")
+    var_str <- "all covariates and their squares"
+  else
+    var_str <- "all covariates, their squares and cross-products"
   Z <- white_test_model_matrix(model, full = full)
-  het_lm_test(model, Z, method, chisq)
+  tst <- het_lm_test(model, Z, chisq)
+  tst$method <- "White's test for heteroskedasticity"
+  tst$data.name <- paste0("Auxiliary regression of squared residuals from:\n  ",
+                          model_call(model), "\n",
+                          "on ", var_str, ".\n\n")
+  tst
 }
+
+# Build a matrix with the model regressors, their squares and, opotionally,
+# their cross-products
+white_test_model_matrix <- function(model, full = TRUE) {
+  vars <- stats::model.matrix(model)
+
+  # Do no include the intercept, if there is one
+  Xidx <- attr(vars, "assign") != 0
+  X <- vars[, Xidx, drop = FALSE]
+  sq_X <- X * X
+
+  # Compute cross-products if there are two regressors at least
+  k <- ncol(X)
+  if (full && k > 1) {
+    cross_X <- matrix(nrow = nrow(X), ncol = k * (k - 1) / 2)
+    nc <- 1
+    for (i in 1:(k - 1)) {
+      for(j in (i + 1):k) {
+        cross_X[, nc] <- X[, i] * X[, j]
+        nc <- nc + 1
+      }
+    }
+    sq_X <- cbind(sq_X, cross_X)
+  }
+  cbind(vars, sq_X)
+}
+

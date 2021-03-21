@@ -26,27 +26,21 @@ coef_table <- function(mod, .vcov = NULL, ...,
   df <- stats::df.residual(mod)
   if (is.null(df)) {
     cnames <- c("Estimate", "Std. Error", "z value", "Pr(>|z|)")
-    pval <- stats::pnorm(tstat, lower.tail = FALSE)
+    pval <- 2 * stats::pnorm(abs(tstat), lower.tail = FALSE)
   } else {
     cnames <- c("Estimate", "Std. Error", "t value", "Pr(>|t|)")
-    pval <- stats::pt(tstat, df = df, lower.tail = FALSE)
+    pval <- 2 * stats::pt(abs(tstat), df = df, lower.tail = FALSE)
   }
   cmat <- cbind(bhat, bse, tstat, pval)
   colnames(cmat) <- cnames
 
   ## Print summary
-  cat("\nCall:\n", paste(deparse(mod$call), sep = "\n", collapse = "\n"),
-      "\n",
-      sep = "")
+  cat("\nCall:\n", paste(model_call(mod), sep = "\n", collapse = "\n"),
+      "\n", sep = "")
   if(!is.null(.vcov)) {
-    if (is.null(.dots)) {
-      dots_str <- "()"
-    } else {
-      dots_str <- deparse1(.dots)
-      dots_str <- substr(dots_str, 9, nchar(dots_str))
-    }
     cat("\nCovariance matrix estimate:\n",
-        paste0(deparse(.vcov.arg)), dots_str, "\n", sep = "")
+        deparse(.vcov.arg), "(", dots_to_str(...), ")\n",
+        sep = "")
   }
   cat("\n")
 
@@ -62,14 +56,24 @@ coef_table <- function(mod, .vcov = NULL, ...,
     stats::printCoefmat(cmat)
   }
 
-  SSR <- sum(stats::resid(mod)^2)
+  uhat <- stats::resid(mod)
   yhat <- stats::fitted(mod)
-  SSE <- sum((yhat - mean(yhat))^2)
-  SST <- SSE + SSR
+  y <- yhat + uhat
+
+  w <- mod$weights
+  if (!is.null(w)) {
+    SSR <- sum(w * uhat^2)
+    SST <- sum(w * (y - sum(w * y) / sum(w))^2)
+  } else {
+    SSR <- sum(uhat^2)
+    SST <- sum((y - mean(y))^2)
+  }
   R_sq <- 1 - SSR / SST
-  Rbar_sq <- 1 - (SSR / df) / (SST / (stats::nobs(mod) - 1))
+  N <- stats::nobs(mod)
+  Rbar_sq <- 1 - (SSR / df) / (SST / (N - 1))
   sigma <- sqrt(SSR / df)
-  Fstat <- omit_test(mod, .vcov = .vcov, ...)
+
+  Fstat <- drop_test(mod, .vcov = .vcov, ...)
 
   cat("\nResidual standard error:",
       format(signif(sigma, digits)), "on", df, "degrees of freedom")
