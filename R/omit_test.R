@@ -29,13 +29,7 @@
 #' @export
 omit_test <- function(model, frml = NULL, chisq = FALSE, .vcov = NULL, ...) {
   bhat <- stats::coef(model)
-  if(is.null(.vcov)) {
-    .vcov = stats::vcov
-  }
-
-  Vbhat <- .vcov(model, ...)
-  if(NROW(Vbhat) != length(bhat))
-    Vbhat <- patch_vcov(bhat, Vbhat)
+  Vbhat <- patch_vcov(model, bhat = bhat, .vcov = .vcov, ...)
 
   if (!is.null(frml)) {
     omit <- attr(stats::terms(frml), "term.labels")
@@ -60,14 +54,4 @@ omit_test <- function(model, frml = NULL, chisq = FALSE, .vcov = NULL, ...) {
     otest <- lm_test_F(stat / k, k, df2, "Method", "Data")
   }
   otest
-}
-
-patch_vcov <- function(bhat, Vbhat) {
-  k <- length(bhat)
-  bnames <- names(bhat)
-  V <- matrix(NA_real_, nrow = k, ncol = k)
-  dimnames(V) <- list(bnames, bnames)
-  idx <- which(rownames(Vbhat) %in% bnames)
-  V[idx, idx] <- Vbhat
-  return(V)
 }

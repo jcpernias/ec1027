@@ -18,12 +18,6 @@
 #' }
 #'
 se <- function(model, .vcov = NULL, ...) {
-  bhat <- stats::coef(model)
-  vcov_fn <- stats::vcov
-  if(!is.null(.vcov))
-    vcov_fn <- .vcov
-  Vbhat <- vcov_fn(model, ...)
-  if (length(bhat) > NROW(Vbhat))
-    Vbhat <- patch_vcov(bhat, Vbhat)
+  Vbhat <- patch_vcov(model, .vcov = .vcov, ...)
   sqrt(diag(Vbhat))
 }
