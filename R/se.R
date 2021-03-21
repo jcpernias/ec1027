@@ -12,6 +12,10 @@
 #'
 #' mod <- lm(price ~ sqrft + lotsize + bdrms, data = hprice1)
 #' se(mod)
+#' # Get heteroskedasticity robust standard errors
+#' if (require(sandwich)) {
+#'   se(mod, vcovHC)
+#' }
 #'
 se <- function(model, .vcov = NULL, ...) {
   bhat <- stats::coef(model)
