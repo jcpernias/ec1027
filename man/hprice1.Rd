@@ -16,7 +16,7 @@ A data frame with 88 observations.
 }
 }
 \source{
-Wooldrige (2009) \emph{Introductory Econometrics: A Modern
+Wooldrige (2009): \emph{Introductory Econometrics: A Modern
 Approach}, 4th ed. South-Western, Cengage Learning.
 }
 \usage{
