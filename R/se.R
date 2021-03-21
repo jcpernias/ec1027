@@ -19,7 +19,6 @@
 #'
 se <- function(model, .vcov = NULL, ...) {
   bhat <- stats::coef(model)
-  k <-
   vcov_fn <- stats::vcov
   if(!is.null(.vcov))
     vcov_fn <- .vcov
