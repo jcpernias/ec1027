@@ -32,6 +32,7 @@ drop_test <- function(model, frml = NULL, vce = NULL, ..., chisq = FALSE) {
   bhat <- stats::coef(model)
   Vbhat <- patch_vcov(model, bhat = bhat, .vcov = vce, ...)
 
+  # No formula
   if (!is.null(frml)) {
     omit <- attr(stats::terms(frml), "term.labels")
     omit_str <- deparse1(frml)
@@ -43,7 +44,20 @@ drop_test <- function(model, frml = NULL, vce = NULL, ..., chisq = FALSE) {
     omit_str <- "all covariates"
   }
 
-  omit_idx <- as.numeric(names(bhat) %in% omit)
+  omit <- sapply(omit, coef_name, model$model, simplify = FALSE,
+                 USE.NAMES = TRUE)
+  omit_na <- is.na(omit)
+  if(any(omit_na)) {
+    msg <- paste0("Variables not found: ",
+                  paste(names(omit[omit_na]), collapse = ", "))
+    stop(msg)
+  }
+
+  if(length(omit) == 0) {
+    stop("No testable restrictions")
+  }
+
+  omit_idx <- as.numeric(names(bhat) %in% unlist(omit))
   aliased <- as.numeric(is.na(bhat))
   idx <- omit_idx & !aliased
   k <- sum(idx)
@@ -67,4 +81,15 @@ drop_test <- function(model, frml = NULL, vce = NULL, ..., chisq = FALSE) {
                             "Call:\n  ", model_call(model), "\n",
                             vce_str, "\n")
   otest
+}
+
+coef_name <- function(vname, mf) {
+  v <- mf[[vname]]
+  if(is.null(v))
+    return(NA_character_)
+  if(is.logical(v))
+    return(paste0(vname, "TRUE"))
+  if(is.factor(v))
+    return(paste0(vname, levels(v)[-1L]))
+  return(vname)
 }
