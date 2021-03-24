@@ -69,7 +69,7 @@ datasets <- list(
 
 make_dataset <- function(x, nm) {
   path <- glue("./data-raw/wooldridge/{x$file}.raw")
-  ds <- read_table2(path, col_types = x$cols,
+  ds <- read_table2(path, na = ".", col_types = x$cols,
                     col_names = names(x$cols$cols)) %>%
     select(-.rest)
   if (!is.null(x$post))
