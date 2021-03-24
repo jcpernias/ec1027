@@ -4,12 +4,12 @@ library(tidyverse)
 library(glue)
 
 datasets <- list(
-  hprice1 = list(
-    file = "HPRICE1",
-    cols = cols(price = "d", assess = "d", bdrms = "i",
-                lotsize = "i", sqrft = "i", colonial = "i",
-                lprice = "-", lassess = "-", llotsize = "-",
-                lsqrft = "-", .rest = "c")
+  bwght = list(
+    file = "BWGHT",
+    cols = cols(faminc = "d", cigtax = "d", cigprice = "d", bwght = "d",
+                fatheduc = "d", motheduc = "d", parity = "d", male = "d",
+                white = "d", cigs = "d", lbwght = "-", bwghtlbs = "-",
+                packs = "-", lfaminc = "-", .rest = "c")
   ),
   earns = list(
     file = "EARNS",
@@ -27,6 +27,13 @@ datasets <- list(
                 voluntr = "i", PC = "i", greek = "i", car = "i", siblings = "i",
                 bgfriend = "i", clubs = "i", skipped = "d", alcohol = "d",
                 gradMI = "i", fathcoll = "i", mothcoll = "i", .rest = "c")
+  ),
+  hprice1 = list(
+    file = "HPRICE1",
+    cols = cols(price = "d", assess = "d", bdrms = "i",
+                lotsize = "i", sqrft = "i", colonial = "i",
+                lprice = "-", lassess = "-", llotsize = "-",
+                lsqrft = "-", .rest = "c")
   ),
   hseinv = list(
     file = "HSEINV",

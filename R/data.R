@@ -1,11 +1,40 @@
+#' bwght
+#'
+#' Data from J. Mullahy (1997), “Instrumental-Variable Estimation of
+#' Count Data Models: Applications to Models of Cigarette Smoking Behavior,”
+#' _Review of Economics and Statistics_ 79, 596-593. Professor Mullahy kindly
+#' provided the data. He obtained them from the 1988 National Health
+#' Interview Survey.
+#'
+#' @usage data("bwght")
+#'
+#' @format A data frame with 41 observations.
+#' \describe{
+#'   \item{faminc}{1988 family income, $1000s}
+#'   \item{cigtax}{cig. tax in home state, 1988}
+#'   \item{cigprice}{cig. price in home state, 1988}
+#'   \item{bwght}{birth weight, ounces}
+#'   \item{fatheduc}{father's yrs of educ}
+#'   \item{motheduc}{mother's yrs of educ}
+#'   \item{parity}{birth order of child}
+#'   \item{male}{=1 if male child}
+#'   \item{white}{=1 if white}
+#'   \item{cigs}{cigs smked per day while preg}
+#' }
+#' @source Wooldrige (2009): \emph{Introductory Econometrics: A Modern
+#' Approach}, 4th ed. South-Western, Cengage Learning.
+#' @docType data
+"bwght"
+
+
 #' earns
 #'
 #' Collected from the \emph{Economic Report of the President}, 1989, Table B-47.
 #' The data are for the non-farm business sector.
 #'
 #' @section Notes:
-#'These data could be usefully updated, but changes in reporting conventions
-#'in more recent ERPs may make that difficult.
+#' These data could be usefully updated, but changes in reporting conventions
+#' in more recent ERPs may make that difficult.
 #'
 #' @usage data("earns")
 #'
