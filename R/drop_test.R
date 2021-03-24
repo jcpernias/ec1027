@@ -5,7 +5,7 @@
 #'   If \code{NULL} the model regressors are used.
 #' @param chisq if \code{TRUE} compute the chi-squared statistic. Else compute
 #'   the F statistic.
-#' @param .vcov a function computing the variance of the estimates.
+#' @param vce a function computing the variance of the estimates.
 #'   If \code{NULL}, \code{vcov} is used.
 #' @param ... further parameters passed to \code{.vcov}.
 #'
@@ -27,10 +27,10 @@
 #' drop_test(mod)
 #'
 #' @export
-drop_test <- function(model, frml = NULL, .vcov = NULL, ..., chisq = FALSE) {
-  .vcov.arg <- substitute(.vcov)
+drop_test <- function(model, frml = NULL, vce = NULL, ..., chisq = FALSE) {
+  vce_arg <- substitute(vce)
   bhat <- stats::coef(model)
-  Vbhat <- patch_vcov(model, bhat = bhat, .vcov = .vcov, ...)
+  Vbhat <- patch_vcov(model, bhat = bhat, .vcov = vce, ...)
 
   if (!is.null(frml)) {
     omit <- attr(stats::terms(frml), "term.labels")
@@ -42,6 +42,7 @@ drop_test <- function(model, frml = NULL, .vcov = NULL, ..., chisq = FALSE) {
     omit <- names(bhat)[-1]
     omit_str <- "all covariates"
   }
+
   omit_idx <- as.numeric(names(bhat) %in% omit)
   aliased <- as.numeric(is.na(bhat))
   idx <- omit_idx & !aliased
@@ -57,13 +58,13 @@ drop_test <- function(model, frml = NULL, .vcov = NULL, ..., chisq = FALSE) {
     otest <- F_htest(stat / k, k, df2)
   }
   otest$method <- "Wald test for redundant variables"
-  vcov_str <- ""
-  if (!is.null(.vcov.arg)) {
-    vcov_str <- paste0("\nCovariance matrix estimate:\n",
-                       deparse(.vcov.arg), "(", dots_to_str(...), ")\n")
+  vce_str <- ""
+  if (!is.null(vce_arg)) {
+    vce_str <- paste0("\nCovariance matrix estimate:\n",
+                       deparse(vce_arg), "(", dots_to_str(...), ")\n")
   }
   otest$data.name <- paste0("Test for redudancy of ", omit_str, ".\n\n",
                             "Call:\n  ", model_call(model), "\n",
-                            vcov_str, "\n")
+                            vce_str, "\n")
   otest
 }

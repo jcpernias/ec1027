@@ -4,7 +4,7 @@
 \alias{drop_test}
 \title{Wald test for the exclusion of regressors}
 \usage{
-drop_test(model, frml = NULL, .vcov = NULL, ..., chisq = FALSE)
+drop_test(model, frml = NULL, vce = NULL, ..., chisq = FALSE)
 }
 \arguments{
 \item{model}{an \code{lm}  object.}
@@ -12,7 +12,7 @@ drop_test(model, frml = NULL, .vcov = NULL, ..., chisq = FALSE)
 \item{frml}{an one-sided formula specifying the terms to be tested.
 If \code{NULL} the model regressors are used.}
 
-\item{.vcov}{a function computing the variance of the estimates.
+\item{vce}{a function computing the variance of the estimates.
 If \code{NULL}, \code{vcov} is used.}
 
 \item{...}{further parameters passed to \code{.vcov}.}

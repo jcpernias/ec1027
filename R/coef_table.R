@@ -73,7 +73,7 @@ coef_table <- function(mod, .vcov = NULL, ...,
   Rbar_sq <- 1 - (SSR / df) / (SST / (N - 1))
   sigma <- sqrt(SSR / df)
 
-  Fstat <- drop_test(mod, .vcov = .vcov, ...)
+  Fstat <- drop_test(mod, vce = .vcov, ...)
 
   cat("\nResidual standard error:",
       format(signif(sigma, digits)), "on", df, "degrees of freedom")
