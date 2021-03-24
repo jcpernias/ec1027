@@ -32,19 +32,21 @@ drop_test <- function(model, frml = NULL, vce = NULL, ..., chisq = FALSE) {
   bhat <- stats::coef(model)
   Vbhat <- patch_vcov(model, bhat = bhat, .vcov = vce, ...)
 
-  # No formula
+  mf <- model$model
+
   if (!is.null(frml)) {
     omit <- attr(stats::terms(frml), "term.labels")
     omit_str <- deparse1(frml)
   } else {
-    if(attr(stats::terms(model), "intercept") == 0) {
+    mt <- attr(mf, "terms")
+    if(attr(mt, "intercept") == 0) {
       stop("Model estimated without intercept")
     }
-    omit <- names(bhat)[-1]
+    omit <- attr(mt, "term.labels")
     omit_str <- "all covariates"
   }
 
-  omit <- sapply(omit, coef_name, model$model, simplify = FALSE,
+  omit <- sapply(omit, coef_name, mf, simplify = FALSE,
                  USE.NAMES = TRUE)
   omit_na <- is.na(omit)
   if(any(omit_na)) {
