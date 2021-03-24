@@ -15,7 +15,7 @@ If \code{NULL} the model regressors are used.}
 \item{vce}{a function computing the variance of the estimates.
 If \code{NULL}, \code{vcov} is used.}
 
-\item{...}{further parameters passed to \code{.vcov}.}
+\item{...}{further parameters passed to \code{vce}.}
 
 \item{chisq}{if \code{TRUE} compute the chi-squared statistic. Else compute
 the F statistic.}

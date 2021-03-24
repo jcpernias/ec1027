@@ -7,7 +7,7 @@
 #'   the F statistic.
 #' @param vce a function computing the variance of the estimates.
 #'   If \code{NULL}, \code{vcov} is used.
-#' @param ... further parameters passed to \code{.vcov}.
+#' @param ... further parameters passed to \code{vce}.
 #'
 #' @return an object of class \code{htest} with components:
 #'   \describe{
@@ -30,7 +30,7 @@
 drop_test <- function(model, frml = NULL, vce = NULL, ..., chisq = FALSE) {
   vce_arg <- substitute(vce)
   bhat <- stats::coef(model)
-  Vbhat <- patch_vcov(model, bhat = bhat, .vcov = vce, ...)
+  Vbhat <- patch_vcov(model, bhat = bhat, vce = vce, ...)
 
   mf <- model$model
 

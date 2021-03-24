@@ -1,12 +1,12 @@
 # Functions in package sandwich drop the rows and columns of aliased
 # coefficients. This function adds the corresponding rows and columns
 # and it fills them with NAs.
-patch_vcov <- function(model, bhat = NULL, .vcov = NULL, ...) {
+patch_vcov <- function(model, bhat = NULL, vce = NULL, ...) {
   if(is.null(bhat))
     bhat <- stats::coef(model)
-  if(is.null(.vcov))
-    .vcov = stats::vcov
-  Vbhat <- .vcov(model, ...)
+  if(is.null(vce))
+    vce = stats::vcov
+  Vbhat <- vce(model, ...)
 
   k <- length(bhat)
   if (NROW(Vbhat) == k)

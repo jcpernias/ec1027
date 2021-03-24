@@ -1,8 +1,8 @@
 #' Print coefficient estimates table
 #'
 #' @param mod an estimated model
-#' @param .vcov a function to compute the covariance matrix of estimates
-#' @param ... further arguments to \code{.vcov}
+#' @param vce a function to compute the covariance matrix of estimates
+#' @param ... further arguments to \code{vce}
 #' @param digits number of digits to print
 #'
 #' @return invisibly returns the coefficient table
@@ -14,14 +14,14 @@
 #' mod <- lm(price ~ sqrft + lotsize + bdrms, data = hprice1)
 #' coef_table(mod)
 #'
-coef_table <- function(mod, .vcov = NULL, ...,
+coef_table <- function(mod, vce = NULL, ...,
                        digits  = max(3L, getOption("digits") - 3L)) {
-  .vcov.arg <- substitute(.vcov)
+  vce_arg <- substitute(vce)
   .dots <- substitute(...())
 
   ## Build coeficient table
   bhat <- stats::coef(mod)
-  bse <- se(mod, .vcov = .vcov, ...)
+  bse <- se(mod, vce = vce, ...)
   tstat <- bhat / bse
   df <- stats::df.residual(mod)
   if (is.null(df)) {
@@ -37,9 +37,9 @@ coef_table <- function(mod, .vcov = NULL, ...,
   ## Print summary
   cat("\nCall:\n", paste(model_call(mod), sep = "\n", collapse = "\n"),
       "\n", sep = "")
-  if(!is.null(.vcov)) {
+  if(!is.null(vce)) {
     cat("\nCovariance matrix estimate:\n",
-        deparse(.vcov.arg), "(", dots_to_str(...), ")\n",
+        deparse(vce_arg), "(", dots_to_str(...), ")\n",
         sep = "")
   }
   cat("\n")
@@ -73,7 +73,7 @@ coef_table <- function(mod, .vcov = NULL, ...,
   Rbar_sq <- 1 - (SSR / df) / (SST / (N - 1))
   sigma <- sqrt(SSR / df)
 
-  Fstat <- drop_test(mod, vce = .vcov, ...)
+  Fstat <- drop_test(mod, vce = vce, ...)
 
   cat("\nResidual standard error:",
       format(signif(sigma, digits)), "on", df, "degrees of freedom")

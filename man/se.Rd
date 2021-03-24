@@ -4,14 +4,14 @@
 \alias{se}
 \title{Standard errors of coefficient estimates}
 \usage{
-se(model, .vcov = NULL, ...)
+se(model, vce = NULL, ...)
 }
 \arguments{
 \item{model}{an estimated model}
 
-\item{.vcov}{a function to compute the covariance matrix of estimates}
+\item{vce}{a function to compute the covariance matrix of estimates}
 
-\item{...}{further arguments to \code{.vcov}}
+\item{...}{further arguments to \code{vce}}
 }
 \value{
 a named vector

@@ -1,8 +1,8 @@
 #' Standard errors of coefficient estimates
 #'
 #' @param model an estimated model
-#' @param .vcov a function to compute the covariance matrix of estimates
-#' @param ... further arguments to \code{.vcov}
+#' @param vce a function to compute the covariance matrix of estimates
+#' @param ... further arguments to \code{vce}
 #'
 #' @return a named vector
 #' @export
@@ -17,7 +17,7 @@
 #'   se(mod, vcovHC)
 #' }
 #'
-se <- function(model, .vcov = NULL, ...) {
-  Vbhat <- patch_vcov(model, .vcov = .vcov, ...)
+se <- function(model, vce = NULL, ...) {
+  Vbhat <- patch_vcov(model, vce = vce, ...)
   sqrt(diag(Vbhat))
 }

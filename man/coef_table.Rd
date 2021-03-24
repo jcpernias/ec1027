@@ -4,14 +4,14 @@
 \alias{coef_table}
 \title{Print coefficient estimates table}
 \usage{
-coef_table(mod, .vcov = NULL, ..., digits = max(3L, getOption("digits") - 3L))
+coef_table(mod, vce = NULL, ..., digits = max(3L, getOption("digits") - 3L))
 }
 \arguments{
 \item{mod}{an estimated model}
 
-\item{.vcov}{a function to compute the covariance matrix of estimates}
+\item{vce}{a function to compute the covariance matrix of estimates}
 
-\item{...}{further arguments to \code{.vcov}}
+\item{...}{further arguments to \code{vce}}
 
 \item{digits}{number of digits to print}
 }
