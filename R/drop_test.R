@@ -30,36 +30,38 @@
 drop_test <- function(model, frml = NULL, vce = NULL, ..., chisq = FALSE) {
   vce_arg <- substitute(vce)
   bhat <- stats::coef(model)
+  bhat_names <- names(bhat)
   Vbhat <- patch_vcov(model, bhat = bhat, vce = vce, ...)
 
-  mf <- model$model
+  mf <- model.frame(model)
+  mm <- model.matrix(model, data = mf)
 
   if (!is.null(frml)) {
-    omit <- attr(stats::terms(frml), "term.labels")
+    if(length(frml) == 3) {
+      warning("frml should be a right hand only formula")
+      frml[[2]] <- NULL
+    }
+    omit <- colnames(model.matrix(update(frml, ~ . + 0), data = mf))
+    miss <- !omit %in% bhat_names
+    if(any(miss)) {
+      msg <- paste0("Variables not found: ", paste(omit[miss]), collapse = ", ")
+      stop(msg)
+    }
     omit_str <- deparse1(frml)
   } else {
     mt <- attr(mf, "terms")
     if(attr(mt, "intercept") == 0) {
       stop("Model estimated without intercept")
     }
-    omit <- attr(mt, "term.labels")
+    omit <- bhat_names[-1L]
     omit_str <- "all covariates"
-  }
-
-  omit <- sapply(omit, coef_name, mf, simplify = FALSE,
-                 USE.NAMES = TRUE)
-  omit_na <- is.na(omit)
-  if(any(omit_na)) {
-    msg <- paste0("Variables not found: ",
-                  paste(names(omit[omit_na]), collapse = ", "))
-    stop(msg)
   }
 
   if(length(omit) == 0) {
     stop("No testable restrictions")
   }
 
-  omit_idx <- as.numeric(names(bhat) %in% unlist(omit))
+  omit_idx <- as.numeric(bhat_names %in% omit)
   aliased <- as.numeric(is.na(bhat))
   idx <- omit_idx & !aliased
   k <- sum(idx)
