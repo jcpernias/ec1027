@@ -18,4 +18,6 @@ BugReports: https://github.com/jcpernias/ec1027/issues
 Depends: 
     R (>= 2.10)
 Suggests: 
+    testthat (>= 3.0.0),
     sandwich
+Config/testthat/edition: 3
