@@ -86,14 +86,3 @@ drop_test <- function(model, frml = NULL, vce = NULL, ..., chisq = FALSE) {
                             vce_str, "\n")
   otest
 }
-
-coef_name <- function(vname, mf) {
-  v <- mf[[vname]]
-  if(is.null(v))
-    return(NA_character_)
-  if(is.logical(v))
-    return(paste0(vname, "TRUE"))
-  if(is.factor(v))
-    return(paste0(vname, levels(v)[-1L]))
-  return(vname)
-}
