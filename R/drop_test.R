@@ -35,6 +35,7 @@ drop_test <- function(model, frml = NULL, vce = NULL, ..., chisq = FALSE) {
 
   mf <- model.frame(model)
   mm <- model.matrix(model, data = mf)
+  ## mm <- model.matrix(model, data = mf)
 
   if (!is.null(frml)) {
     if(length(frml) == 3) {
