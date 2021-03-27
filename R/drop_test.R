@@ -33,8 +33,7 @@ drop_test <- function(model, frml = NULL, vce = NULL, ..., chisq = FALSE) {
   bhat_names <- names(bhat)
   Vbhat <- patch_vcov(model, bhat = bhat, vce = vce, ...)
 
-  mf <- model.frame(model)
-  mm <- model.matrix(model, data = mf)
+  mf <- stats::model.frame(model)
   ## mm <- model.matrix(model, data = mf)
 
   if (!is.null(frml)) {
@@ -42,7 +41,7 @@ drop_test <- function(model, frml = NULL, vce = NULL, ..., chisq = FALSE) {
       warning("frml should be a right hand only formula")
       frml[[2]] <- NULL
     }
-    omit <- colnames(model.matrix(update(frml, ~ . + 0), data = mf))
+    omit <- colnames(stats::model.matrix(stats::update(frml, ~ . + 0), data = mf))
     miss <- !omit %in% bhat_names
     if(any(miss)) {
       msg <- paste0("Variables not found: ", paste(omit[miss]), collapse = ", ")
