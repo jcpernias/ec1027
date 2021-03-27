@@ -2,7 +2,6 @@
 #'
 #' @param mod an estimated model
 #' @param vce a function to compute the covariance matrix of estimates
-#' @param ... further arguments to \code{vce}
 #' @param digits number of digits to print
 #'
 #' @return invisibly returns the coefficient table
@@ -14,14 +13,13 @@
 #' mod <- lm(price ~ sqrft + lotsize + bdrms, data = hprice1)
 #' coef_table(mod)
 #'
-coef_table <- function(mod, vce = NULL, ...,
+coef_table <- function(mod, vce = NULL,
                        digits  = max(3L, getOption("digits") - 3L)) {
   vce_arg <- substitute(vce)
-  .dots <- substitute(...())
 
   ## Build coeficient table
   bhat <- stats::coef(mod)
-  bse <- se(mod, vce = vce, ...)
+  bse <- se(mod, vce = vce)
   tstat <- bhat / bse
   df <- stats::df.residual(mod)
   if (is.null(df)) {
@@ -39,7 +37,7 @@ coef_table <- function(mod, vce = NULL, ...,
       "\n", sep = "")
   if(!is.null(vce)) {
     cat("\nCovariance matrix estimate:\n",
-        deparse(vce_arg), "(", dots_to_str(...), ")\n",
+        deparse(vce_arg), "\n",
         sep = "")
   }
   cat("\n")
@@ -73,7 +71,7 @@ coef_table <- function(mod, vce = NULL, ...,
   Rbar_sq <- 1 - (SSR / df) / (SST / (N - 1))
   sigma <- sqrt(SSR / df)
 
-  Fstat <- drop_test(mod, vce = vce, ...)
+  Fstat <- drop_test(mod, vce = vce)
 
   cat("\nResidual standard error:",
       format(signif(sigma, digits)), "on", df, "degrees of freedom")
