@@ -34,7 +34,6 @@ drop_test <- function(model, frml = NULL, vce = NULL, ..., chisq = FALSE) {
   Vbhat <- patch_vcov(model, bhat = bhat, vce = vce, ...)
 
   mf <- stats::model.frame(model)
-  ## mm <- model.matrix(model, data = mf)
 
   if (!is.null(frml)) {
     if(length(frml) == 3) {
