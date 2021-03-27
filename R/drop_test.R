@@ -7,7 +7,6 @@
 #'   the F statistic.
 #' @param vce a function computing the variance of the estimates.
 #'   If \code{NULL}, \code{vcov} is used.
-#' @param ... further parameters passed to \code{vce}.
 #'
 #' @return an object of class \code{htest} with components:
 #'   \describe{
@@ -27,11 +26,21 @@
 #' drop_test(mod)
 #'
 #' @export
-drop_test <- function(model, frml = NULL, vce = NULL, ..., chisq = FALSE) {
-  vce_arg <- substitute(vce)
+drop_test <- function(model, frml = NULL, vce = NULL, chisq = FALSE) {
   bhat <- stats::coef(model)
   bhat_names <- names(bhat)
-  Vbhat <- patch_vcov(model, bhat = bhat, vce = vce, ...)
+
+  ## Get covariance matrix of estimates
+  Vlst <- get_vce(model, vce)
+
+  if (is.null(Vlst$err)) {
+    Vbhat <- Vlst$vce
+    vce_msg <- Vlst$msg
+  } else {
+    stop(paste0("Invalid vce argument: ", Vlst$err))
+  }
+
+
 
   mf <- stats::model.frame(model)
 
@@ -76,10 +85,8 @@ drop_test <- function(model, frml = NULL, vce = NULL, ..., chisq = FALSE) {
   }
   otest$method <- "Wald test for redundant variables"
   vce_str <- ""
-  if (!is.null(vce_arg)) {
-    vce_str <- paste0("\nCovariance matrix estimate:\n",
-                       deparse(vce_arg), "(", dots_to_str(...), ")\n")
-  }
+  if (!is.null(vce))
+    vce_str <- paste0("\nCovariance matrix estimate: ", vce_msg, ".)\n")
   otest$data.name <- paste0("Test for redudancy of ", omit_str, ".\n\n",
                             "Call:\n  ", model_call(model), "\n",
                             vce_str, "\n")

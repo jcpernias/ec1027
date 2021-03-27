@@ -17,40 +17,18 @@ coef_table <- function(mod, vce = NULL,
                        digits  = max(3L, getOption("digits") - 3L)) {
   ## Get coefficients
   bhat <- stats::coef(mod)
-  ncoef <- length(bhat)
 
   ## Get covariance matrix of estimates
-  if(is.null(vce)) {
-    Vbhat <- stats::vcov(mod)
-    vce_msg <- "default."
-  } else if (is.matrix(vce)) {
-    Vbhat <- vce
-    vce_msg <- "user supplied matrix."
-  } else if (is.function(vce)) {
-    Vbhat <- vce(mod)
-    vce_msg <- paste0("calling function `", deparse1(substitute(vce)), "`.")
-  } else if (is.character(vce)) {
-    if(length(vce) != 1)
-      stop("Invalid vce argument: character vector of length greater than 1.")
-    ## Switch
-    Vbhat <- switch(vce,
-      "HC" =,
-      "HC3" = sandwich::vcovHC(mod, type = "HC3"),
-      "HC0" = sandwich::vcovHC(mod, type = "HC0"),
-      "HC1" = sandwich::vcovHC(mod, type = "HC1"),
-      "HC2" = sandwich::vcovHC(mod, type = "HC2"),
-      "NW" =,
-      "HAC" = sandwich::NewyWest(mod, prewhite = FALSE),
-      stop(paste0("Invalid vce argument: ", vce)))
-      vce_msg <- paste0(vce, ".")
+  Vlst <- get_vce(mod, vce)
+
+  if (is.null(Vlst$err)) {
+    Vbhat <- Vlst$vce
+    vce_msg <- Vlst$msg
   } else {
-    ## error
-    stop(paste0("Invalid vce argument: ", deparse1(substitute(vce)), "."))
+    stop(paste0("Invalid vce argument: ", Vlst$err))
   }
 
-
   ## Build coeficient table
-  bhat <- stats::coef(mod)
   bse <- sqrt(diag(Vbhat))
   tstat <- bhat / bse
   df <- stats::df.residual(mod)
@@ -103,8 +81,6 @@ coef_table <- function(mod, vce = NULL,
   Rbar_sq <- 1 - (SSR / df) / (SST / (N - 1))
   sigma <- sqrt(SSR / df)
 
-  # Fstat <- drop_test(mod, vce = vce)
-
   cat("\nResidual standard error:",
       format(signif(sigma, digits)), "on", df, "degrees of freedom")
   cat("\n")
@@ -115,9 +91,11 @@ coef_table <- function(mod, vce = NULL,
 
   cat("Multiple R-squared: ", formatC(R_sq, digits = digits))
   cat(",\tAdjusted R-squared: ", formatC(Rbar_sq, digits = digits), "\n")
-  # cat("F-statistic:", formatC(Fstat$statistic, digits = digits), "on",
-  #     Fstat$parameter[1], "and",  Fstat$parameter[2],
-  #     "DF,  p-value:", format.pval(Fstat$p.value, digits = digits),
-  #     "\n\n")
+
+  Fstat <- drop_test(mod, vce = Vbhat)
+  cat("F-statistic:", formatC(Fstat$statistic, digits = digits), "on",
+      Fstat$parameter[1], "and",  Fstat$parameter[2],
+      "DF,  p-value:", format.pval(Fstat$p.value, digits = digits),
+      "\n\n")
   invisible(cmat)
 }

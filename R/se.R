@@ -2,7 +2,6 @@
 #'
 #' @param model an estimated model
 #' @param vce a function to compute the covariance matrix of estimates
-#' @param ... further arguments to \code{vce}
 #'
 #' @return a named vector
 #' @export
@@ -17,7 +16,11 @@
 #'   se(mod, vcovHC)
 #' }
 #'
-se <- function(model, vce = NULL, ...) {
-  Vbhat <- patch_vcov(model, vce = vce, ...)
-  sqrt(diag(Vbhat))
+se <- function(model, vce = NULL) {
+  ## Get covariance matrix of estimates
+  Vlst <- get_vce(model, vce)
+
+  if (is.null(Vlst$err))
+    return(sqrt(diag(Vlst$vce)))
+  stop(paste0("Invalid vce argument: ", Vlst$err))
 }

@@ -4,7 +4,7 @@
 \alias{drop_test}
 \title{Wald test for the exclusion of regressors}
 \usage{
-drop_test(model, frml = NULL, vce = NULL, ..., chisq = FALSE)
+drop_test(model, frml = NULL, vce = NULL, chisq = FALSE)
 }
 \arguments{
 \item{model}{an \code{lm}  object.}
@@ -14,8 +14,6 @@ If \code{NULL} the model regressors are used.}
 
 \item{vce}{a function computing the variance of the estimates.
 If \code{NULL}, \code{vcov} is used.}
-
-\item{...}{further parameters passed to \code{vce}.}
 
 \item{chisq}{if \code{TRUE} compute the chi-squared statistic. Else compute
 the F statistic.}
