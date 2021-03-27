@@ -117,7 +117,7 @@
     <p>Wald test for the exclusion of regressors</p>
     </div>
 
-    <pre class="usage"><span class='fu'>drop_test</span><span class='op'>(</span><span class='va'>model</span>, frml <span class='op'>=</span> <span class='cn'>NULL</span>, vce <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span>, chisq <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>drop_test</span><span class='op'>(</span><span class='va'>model</span>, frml <span class='op'>=</span> <span class='cn'>NULL</span>, vce <span class='op'>=</span> <span class='cn'>NULL</span>, chisq <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -135,10 +135,6 @@ If <code>NULL</code> the model regressors are used.</p></td>
       <th>vce</th>
       <td><p>a function computing the variance of the estimates.
 If <code>NULL</code>, <code>vcov</code> is used.</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>further parameters passed to <code>vce</code>.</p></td>
     </tr>
     <tr>
       <th>chisq</th>
