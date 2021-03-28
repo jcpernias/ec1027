@@ -93,13 +93,19 @@ coef_table <- function(model, vce = NULL) {
   if (nzchar(na_message))
     cat("  (", na_message, ")\n", sep = "")
 
-  cat("Multiple R-squared: ", formatC(R_sq))
-  cat(",\tAdjusted R-squared: ", formatC(Rbar_sq), "\n")
+  ## Chek the model has an intercept
+  mf <- stats::model.frame(model)
+  mt <- attr(mf, "terms")
+  if(attr(mt, "intercept") != 0) {
+    cat("Multiple R-squared: ", formatC(R_sq))
+    cat(",\tAdjusted R-squared: ", formatC(Rbar_sq), "\n")
 
-  Fstat <- drop_test(model, vce = Vbhat)
-  cat("F-statistic:", formatC(Fstat$statistic), "on",
-      Fstat$parameter[1], "and",  Fstat$parameter[2],
-      "DF,  p-value:", format.pval(Fstat$p.value),
-      "\n\n")
+    Fstat <- drop_test(model, vce = Vbhat)
+    cat("F-statistic:", formatC(Fstat$statistic), "on",
+        Fstat$parameter[1], "and",  Fstat$parameter[2],
+        "DF,  p-value:", format.pval(Fstat$p.value),
+        "\n\n")
+  }
+
   invisible(cmat)
 }
