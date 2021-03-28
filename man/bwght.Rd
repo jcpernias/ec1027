@@ -5,7 +5,7 @@
 \alias{bwght}
 \title{bwght}
 \format{
-A data frame with 41 observations.
+A data frame with 1388 observations.
 \describe{
 \item{faminc}{1988 family income, $1000s}
 \item{cigtax}{cig. tax in home state, 1988}
@@ -20,7 +20,7 @@ A data frame with 41 observations.
 }
 }
 \source{
-Wooldrige (2006): \emph{Introductory Econometrics: A Modern Approach},
+Jeffrey M. Wooldrige (2006): \emph{Introductory Econometrics: A Modern Approach},
 3rd ed., Thomson South-Western.
 }
 \usage{

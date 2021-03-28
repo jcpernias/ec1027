@@ -10,7 +10,7 @@
 #'
 #' @usage data("bwght")
 #'
-#' @format A data frame with 41 observations.
+#' @format A data frame with `r nrow(bwght)` observations.
 #' \describe{
 #'   \item{faminc}{1988 family income, $1000s}
 #'   \item{cigtax}{cig. tax in home state, 1988}
@@ -23,7 +23,7 @@
 #'   \item{white}{=1 if white}
 #'   \item{cigs}{cigs smked per day while preg}
 #' }
-#' @source Wooldrige (2006): *Introductory Econometrics: A Modern Approach*,
+#' @source Jeffrey M. Wooldrige (2006): *Introductory Econometrics: A Modern Approach*,
 #' 3rd ed., Thomson South-Western.
 #' @docType data
 "bwght"
@@ -42,14 +42,14 @@
 #'
 #' @usage data("earns")
 #'
-#' @format A data frame with 41 observations.
+#' @format A data frame with `r nrow(earns)` observations.
 #' \describe{
 #'   \item{year}{1947 to 1987}
 #'   \item{wkearns}{avg. real weekly earnings}
 #'   \item{wkhours}{avg. weekly hours}
 #'   \item{outphr}{output per labor hour}
 #' }
-#' @source Wooldrige (2006): *Introductory Econometrics: A Modern Approach*,
+#' @source Jeffrey M. Wooldrige (2006): *Introductory Econometrics: A Modern Approach*,
 #' 3rd ed., Thomson South-Western.
 #' @docType data
 "earns"
@@ -67,7 +67,7 @@
 #'
 #' @usage data("gpa1")
 #'
-#' @format A data frame with 141 observations.
+#' @format A data frame with `r nrow(gpa1)` observations.
 #' \describe{
 #'   \item{age}{in years}
 #'   \item{soph}{=1 if sophomore}
@@ -99,7 +99,7 @@
 #'   \item{fathcoll}{=1 if father college grad}
 #'   \item{mothcoll}{=1 if mother college grad}
 #' }
-#' @source Wooldrige (2006): *Introductory Econometrics: A Modern Approach*,
+#' @source Jeffrey M. Wooldrige (2006): *Introductory Econometrics: A Modern Approach*,
 #' 3rd ed., Thomson South-Western.
 #' @docType data
 "gpa1"
@@ -121,7 +121,7 @@
 #'
 #' @usage data("hprice1")
 #'
-#' @format A data frame with 88 observations.
+#' @format A data frame with `r nrow(hprice1)` observations.
 #' \describe{
 #'   \item{price}{house price, $1000s}
 #'   \item{assess}{assessed value, $1000s}
@@ -130,7 +130,7 @@
 #'   \item{sqrft}{size of house in square feet}
 #'   \item{colonial}{=1 if home is colonial style}
 #' }
-#' @source Wooldrige (2006): *Introductory Econometrics: A Modern Approach*,
+#' @source Jeffrey M. Wooldrige (2006): *Introductory Econometrics: A Modern Approach*,
 #' 3rd ed., Thomson South-Western.
 #' @docType data
 "hprice1"
@@ -145,14 +145,14 @@
 #'
 #' @usage data("hseinv")
 #'
-#' @format A data frame with 42 observations.
+#' @format A data frame with `r nrow(hseinv)` observations.
 #' \describe{
 #'   \item{year}{1947-1988}
 #'   \item{inv}{real housing invest., millions $}
 #'   \item{pop}{population, 1000s}
 #'   \item{price}{housing price index; 1982 = 1}
 #' }
-#' @source Wooldrige (2006): *Introductory Econometrics: A Modern Approach*,
+#' @source Jeffrey M. Wooldrige (2006): *Introductory Econometrics: A Modern Approach*,
 #' 3rd ed., Thomson South-Western.
 #' @docType data
 "hseinv"
@@ -166,7 +166,7 @@
 #'
 #' @usage data("intdef")
 #'
-#' @format A data frame with 49 observations.
+#' @format A data frame with `r nrow(intdef)` observations.
 #' \describe{
 #'   \item{year}{1948-1996}
 #'   \item{i3}{3 mo. T bill rate}
@@ -175,7 +175,7 @@
 #'   \item{out}{federal outlays, % GDP}
 #'   \item{def}{out - rec (deficit as % GDP)}
 #' }
-#' @source Wooldrige (2006): *Introductory Econometrics: A Modern Approach*,
+#' @source Jeffrey M. Wooldrige (2006): *Introductory Econometrics: A Modern Approach*,
 #' 3rd ed., Thomson South-Western.
 #' @docType data
 "intdef"
@@ -192,13 +192,13 @@
 #'
 #' @usage data("rdchem")
 #'
-#' @format A data frame with 32 observations.
+#' @format A data frame with `r nrow(rdchem)` observations.
 #' \describe{
 #'   \item{rd}{R&D spending, millions $}
 #'   \item{sales}{firm sales, millions $}
 #'   \item{profits}{profits, millions $}
 #' }
-#' @source Wooldrige (2006): *Introductory Econometrics: A Modern Approach*,
+#' @source Jeffrey M. Wooldrige (2006): *Introductory Econometrics: A Modern Approach*,
 #' 3rd ed., Thomson South-Western.
 #' @docType data
 "rdchem"
@@ -221,7 +221,7 @@
 #'
 #' @usage data("traffic2")
 #'
-#' @format A data frame with 108 observations.
+#' @format A data frame with `r nrow(traffic2)` observations.
 #' \describe{
 #'   \item{year}{1981 to 1989}
 #'   \item{month}{1 to 12}
@@ -245,7 +245,7 @@
 #'   \item{beltlaw}{=1 after seatbelt law}
 #'   \item{wkends}{number of weekend days in month}
 #' }
-#' @source Wooldrige (2006): *Introductory Econometrics: A Modern Approach*,
+#' @source Jeffrey M. Wooldrige (2006): *Introductory Econometrics: A Modern Approach*,
 #' 3rd ed., Thomson South-Western.
 #' @docType data
 "traffic2"

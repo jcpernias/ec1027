@@ -13,7 +13,7 @@ A data frame with 32 observations.
 }
 }
 \source{
-Wooldrige (2006): \emph{Introductory Econometrics: A Modern Approach},
+Jeffrey M. Wooldrige (2006): \emph{Introductory Econometrics: A Modern Approach},
 3rd ed., Thomson South-Western.
 }
 \usage{
