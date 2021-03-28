@@ -15,8 +15,8 @@
 #'   estimated by calling that function: `vce(model)`.
 #' - Finally, a covariance matrix can be passed ditevtly to `vce`.
 #'
-#' The `model` object should support the [coef][stats::coef] and
-#' [vcov][stats::vcov] methods.
+#' The `model` object should support the [`coef`][stats::coef] and
+#' [`vcov`][stats::vcov] methods.
 #'
 #' @param model an estimated model returned by `lm` or similar functions.
 #' @param vce an object indicating how to obtain the covariance matrix.

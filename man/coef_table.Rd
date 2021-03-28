@@ -4,25 +4,28 @@
 \alias{coef_table}
 \title{Print coefficient estimates table}
 \usage{
-coef_table(mod, vce = NULL, digits = max(3L, getOption("digits") - 3L))
+coef_table(model, vce = NULL)
 }
 \arguments{
-\item{mod}{an estimated model}
+\item{model}{an estimated model returned by \code{lm} or similar functions.}
 
-\item{vce}{a function to compute the covariance matrix of estimates}
-
-\item{digits}{number of digits to print}
+\item{vce}{an object indicating how to obtain the covariance matrix.}
 }
 \value{
-invisibly returns the coefficient table
+Invisibly returns the coefficient table
 }
 \description{
-Print coefficient estimates table
+Display the output of models estimated with \link[stats:lm]{lm()} or similar
+functions. The parameter \code{vce} allows to use covariance matrices consistent
+to heteroskedasticity and autocorrelation (see the documentation of \link[=se]{se()}).
 }
 \examples{
 data("hprice1")
 
-mod <- lm(price ~ sqrft + lotsize + bdrms, data = hprice1)
+mod <- lm(price ~ sqrft + bdrms, data = hprice1)
 coef_table(mod)
+
+# Heteroskedasticity consistent standard errors
+coef_table(mod, vce = "HC")
 
 }
