@@ -14,13 +14,16 @@ A data frame with 42 observations.
 }
 }
 \source{
-Wooldrige (2009): \emph{Introductory Econometrics: A Modern
-Approach}, 4th ed. South-Western, Cengage Learning.
+Wooldrige (2006): \emph{Introductory Econometrics: A Modern Approach},
+3rd ed., Thomson South-Western.
 }
 \usage{
 data("hseinv")
 }
 \description{
+Housing investment and prices.
+}
+\details{
 Data from D. McFadden (1994), “Demographics, the Housing Market, and
 the Welfare of the Elderly,” in D.A. Wise (ed.), \emph{Studies in the Economics
 of Aging}. Chicago: University of Chicago Press, 225-285.

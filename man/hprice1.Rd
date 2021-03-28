@@ -16,13 +16,16 @@ A data frame with 88 observations.
 }
 }
 \source{
-Wooldrige (2009): \emph{Introductory Econometrics: A Modern
-Approach}, 4th ed. South-Western, Cengage Learning.
+Wooldrige (2006): \emph{Introductory Econometrics: A Modern Approach},
+3rd ed., Thomson South-Western.
 }
 \usage{
 data("hprice1")
 }
 \description{
+House prices and characteristics.
+}
+\details{
 Collected from the real estate pages of the Boston Globe during 1990.
 These homes sold in the Boston, MA area.
 }

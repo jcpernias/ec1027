@@ -20,13 +20,16 @@ A data frame with 41 observations.
 }
 }
 \source{
-Wooldrige (2009): \emph{Introductory Econometrics: A Modern
-Approach}, 4th ed. South-Western, Cengage Learning.
+Wooldrige (2006): \emph{Introductory Econometrics: A Modern Approach},
+3rd ed., Thomson South-Western.
 }
 \usage{
 data("bwght")
 }
 \description{
+Birth weight and cigarette smoking.
+}
+\details{
 Data from J. Mullahy (1997), “Instrumental-Variable Estimation of
 Count Data Models: Applications to Models of Cigarette Smoking Behavior,”
 \emph{Review of Economics and Statistics} 79, 596-593. Professor Mullahy kindly

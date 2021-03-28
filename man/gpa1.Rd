@@ -39,13 +39,16 @@ A data frame with 141 observations.
 }
 }
 \source{
-Wooldrige (2009): \emph{Introductory Econometrics: A Modern
-Approach}, 4th ed. South-Western, Cengage Learning.
+Wooldrige (2006): \emph{Introductory Econometrics: A Modern Approach},
+3rd ed., Thomson South-Western.
 }
 \usage{
 data("gpa1")
 }
 \description{
+Gollege GPA and its predictors.
+}
+\details{
 Christopher Lemmon, a former MSU undergraduate, collected these data
 from a survey he took of MSU students in Fall 1994.
 }

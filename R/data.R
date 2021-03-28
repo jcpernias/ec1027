@@ -1,5 +1,7 @@
 #' bwght
 #'
+#' Birth weight and cigarette smoking.
+#'
 #' Data from J. Mullahy (1997), “Instrumental-Variable Estimation of
 #' Count Data Models: Applications to Models of Cigarette Smoking Behavior,”
 #' _Review of Economics and Statistics_ 79, 596-593. Professor Mullahy kindly
@@ -21,13 +23,15 @@
 #'   \item{white}{=1 if white}
 #'   \item{cigs}{cigs smked per day while preg}
 #' }
-#' @source Wooldrige (2009): \emph{Introductory Econometrics: A Modern
-#' Approach}, 4th ed. South-Western, Cengage Learning.
+#' @source Wooldrige (2006): *Introductory Econometrics: A Modern Approach*,
+#' 3rd ed., Thomson South-Western.
 #' @docType data
 "bwght"
 
 
 #' earns
+#'
+#' Earnings, productivity and hours (macro).
 #'
 #' Collected from the \emph{Economic Report of the President}, 1989, Table B-47.
 #' The data are for the non-farm business sector.
@@ -45,12 +49,14 @@
 #'   \item{wkhours}{avg. weekly hours}
 #'   \item{outphr}{output per labor hour}
 #' }
-#' @source Wooldrige (2009): \emph{Introductory Econometrics: A Modern
-#' Approach}, 4th ed. South-Western, Cengage Learning.
+#' @source Wooldrige (2006): *Introductory Econometrics: A Modern Approach*,
+#' 3rd ed., Thomson South-Western.
 #' @docType data
 "earns"
 
 #' gpa1
+#'
+#' Gollege GPA and its predictors.
 #'
 #' Christopher Lemmon, a former MSU undergraduate, collected these data
 #' from a survey he took of MSU students in Fall 1994.
@@ -93,12 +99,14 @@
 #'   \item{fathcoll}{=1 if father college grad}
 #'   \item{mothcoll}{=1 if mother college grad}
 #' }
-#' @source Wooldrige (2009): \emph{Introductory Econometrics: A Modern
-#' Approach}, 4th ed. South-Western, Cengage Learning.
+#' @source Wooldrige (2006): *Introductory Econometrics: A Modern Approach*,
+#' 3rd ed., Thomson South-Western.
 #' @docType data
 "gpa1"
 
 #' hprice1
+#'
+#' House prices and characteristics.
 #'
 #' Collected from the real estate pages of the Boston Globe during 1990.
 #' These homes sold in the Boston, MA area.
@@ -122,12 +130,14 @@
 #'   \item{sqrft}{size of house in square feet}
 #'   \item{colonial}{=1 if home is colonial style}
 #' }
-#' @source Wooldrige (2009): \emph{Introductory Econometrics: A Modern
-#' Approach}, 4th ed. South-Western, Cengage Learning.
+#' @source Wooldrige (2006): *Introductory Econometrics: A Modern Approach*,
+#' 3rd ed., Thomson South-Western.
 #' @docType data
 "hprice1"
 
 #' hseinv
+#'
+#' Housing investment and prices.
 #'
 #' Data from D. McFadden (1994), “Demographics, the Housing Market, and
 #' the Welfare of the Elderly,” in D.A. Wise (ed.), \emph{Studies in the Economics
@@ -142,12 +152,14 @@
 #'   \item{pop}{population, 1000s}
 #'   \item{price}{housing price index; 1982 = 1}
 #' }
-#' @source Wooldrige (2009): \emph{Introductory Econometrics: A Modern
-#' Approach}, 4th ed. South-Western, Cengage Learning.
+#' @source Wooldrige (2006): *Introductory Econometrics: A Modern Approach*,
+#' 3rd ed., Thomson South-Western.
 #' @docType data
 "hseinv"
 
 #' intdef
+#'
+#' Interest rates and Federal budget balance.
 #'
 #' Data from \emph{Economic Report of the President}, 2004,
 #' Tables B-64, B-73, and B-79.
@@ -163,12 +175,14 @@
 #'   \item{out}{federal outlays, % GDP}
 #'   \item{def}{out - rec (deficit as % GDP)}
 #' }
-#' @source Wooldrige (2009): \emph{Introductory Econometrics: A Modern
-#' Approach}, 4th ed. South-Western, Cengage Learning.
+#' @source Wooldrige (2006): *Introductory Econometrics: A Modern Approach*,
+#' 3rd ed., Thomson South-Western.
 #' @docType data
 "intdef"
 
 #' rdchem
+#'
+#' R & D and sales, chemical industry.
 #'
 #' From \emph{Businessweek} R&D Scoreboard, October 25, 1991
 #'
@@ -184,13 +198,15 @@
 #'   \item{sales}{firm sales, millions $}
 #'   \item{profits}{profits, millions $}
 #' }
-#' @source Wooldrige (2009): \emph{Introductory Econometrics: A Modern
-#' Approach}, 4th ed. South-Western, Cengage Learning.
+#' @source Wooldrige (2006): *Introductory Econometrics: A Modern Approach*,
+#' 3rd ed., Thomson South-Western.
 #' @docType data
 "rdchem"
 
 
 #' traffic2
+#'
+#' Speed limits and highway safety.
 #'
 #' Data used in: P.S. McCarthy (1994), “Relaxed Speed Limits and Highway
 #' Safety: New Evidence from California,” \emph{Economics Letters}
@@ -229,8 +245,8 @@
 #'   \item{beltlaw}{=1 after seatbelt law}
 #'   \item{wkends}{number of weekend days in month}
 #' }
-#' @source Wooldrige (2009): \emph{Introductory Econometrics: A Modern
-#' Approach}, 4th ed. South-Western, Cengage Learning.
+#' @source Wooldrige (2006): *Introductory Econometrics: A Modern Approach*,
+#' 3rd ed., Thomson South-Western.
 #' @docType data
 "traffic2"
 

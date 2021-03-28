@@ -31,13 +31,16 @@ A data frame with 108 observations.
 }
 }
 \source{
-Wooldrige (2009): \emph{Introductory Econometrics: A Modern
-Approach}, 4th ed. South-Western, Cengage Learning.
+Wooldrige (2006): \emph{Introductory Econometrics: A Modern Approach},
+3rd ed., Thomson South-Western.
 }
 \usage{
 data("traffic2")
 }
 \description{
+Speed limits and highway safety.
+}
+\details{
 Data used in: P.S. McCarthy (1994), “Relaxed Speed Limits and Highway
 Safety: New Evidence from California,” \emph{Economics Letters}
 \strong{46}, 173--179. Professor McCarthy kindly provided the data.

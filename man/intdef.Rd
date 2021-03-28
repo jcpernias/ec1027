@@ -16,13 +16,16 @@ A data frame with 49 observations.
 }
 }
 \source{
-Wooldrige (2009): \emph{Introductory Econometrics: A Modern
-Approach}, 4th ed. South-Western, Cengage Learning.
+Wooldrige (2006): \emph{Introductory Econometrics: A Modern Approach},
+3rd ed., Thomson South-Western.
 }
 \usage{
 data("intdef")
 }
 \description{
+Interest rates and Federal budget balance.
+}
+\details{
 Data from \emph{Economic Report of the President}, 2004,
 Tables B-64, B-73, and B-79.
 }

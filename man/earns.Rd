@@ -14,13 +14,16 @@ A data frame with 41 observations.
 }
 }
 \source{
-Wooldrige (2009): \emph{Introductory Econometrics: A Modern
-Approach}, 4th ed. South-Western, Cengage Learning.
+Wooldrige (2006): \emph{Introductory Econometrics: A Modern Approach},
+3rd ed., Thomson South-Western.
 }
 \usage{
 data("earns")
 }
 \description{
+Earnings, productivity and hours (macro).
+}
+\details{
 Collected from the \emph{Economic Report of the President}, 1989, Table B-47.
 The data are for the non-farm business sector.
 }

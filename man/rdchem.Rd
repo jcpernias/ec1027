@@ -13,13 +13,16 @@ A data frame with 32 observations.
 }
 }
 \source{
-Wooldrige (2009): \emph{Introductory Econometrics: A Modern
-Approach}, 4th ed. South-Western, Cengage Learning.
+Wooldrige (2006): \emph{Introductory Econometrics: A Modern Approach},
+3rd ed., Thomson South-Western.
 }
 \usage{
 data("rdchem")
 }
 \description{
+R & D and sales, chemical industry.
+}
+\details{
 From \emph{Businessweek} R&D Scoreboard, October 25, 1991
 }
 \section{Notes}{
