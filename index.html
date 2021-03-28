@@ -72,7 +72,7 @@
 <a href="#ec1027" class="anchor"></a>ec1027</h1></div>
 <!-- badges: start -->
 <!-- badges: end -->
-<p>This package provides datasets and some function to be used in the course EC1027 - Econometrics I.</p>
+<p>This package provides datasets and some functions to be used in the course EC1027 - Econometrics I.</p>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
@@ -87,6 +87,189 @@ install.packages("ec1027")
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># install.packages("devtools")</span>
 <span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"jcpernias/ec1027"</span><span class="op">)</span></code></pre></div>
+</div>
+<div id="datasets" class="section level2">
+<h2 class="hasAnchor">
+<a href="#datasets" class="anchor"></a>Datasets</h2>
+<p>The <code>ec1027</code> package provides some datasets taken from Jeffrey M. Wooldridge (2006:) <em>Introductory econometrics : a modern approach</em>, 3rd ed., Thomson South-Western:</p>
+<ul>
+<li><p><code>bwght</code>: Birth weight and cigarette smoking.</p></li>
+<li><p><code>earns</code>: Earnings, productivity and hours (macro).</p></li>
+<li><p><code>gpa1</code>: Gollege GPA and its predictors.</p></li>
+<li><p><code>hprice1</code>: House prices and characteristics.</p></li>
+<li><p><code>hseinv</code>: Housing investment and prices.</p></li>
+<li><p><code>intdef</code>: Interest rates and Federal budget balance.</p></li>
+<li><p><code>rdchem</code>: R &amp; D and sales, chemical industry.</p></li>
+<li><p><code>traffic2</code>: Speed limits and highway safety.</p></li>
+</ul>
+<p>Note that the package <a href="https://justinmshea.github.io/wooldridge/">wooldridge</a> provides access to many more datasets. Also note that derived variables (logarithms, lags, etc) are not included in the <code>ec1027</code> data sets.</p>
+</div>
+<div id="example" class="section level2">
+<h2 class="hasAnchor">
+<a href="#example" class="anchor"></a>Example</h2>
+<p>Load the <code>ec1027</code> package and use <code>data</code> to bring one of the included data sets to the global environment.</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://jcpernias.github.io/ec1027">ec1027</a></span><span class="op">)</span>
+
+<span class="co">## data on house prices</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">hprice1</span><span class="op">)</span>
+
+<span class="co">## Show the first observations</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">hprice1</span><span class="op">)</span>
+<span class="co">#&gt;     price assess bdrms lotsize sqrft colonial</span>
+<span class="co">#&gt; 1 300.000  349.1     4    6126  2438        1</span>
+<span class="co">#&gt; 2 370.000  351.5     3    9903  2076        1</span>
+<span class="co">#&gt; 3 191.000  217.7     3    5200  1374        0</span>
+<span class="co">#&gt; 4 195.000  231.8     3    4600  1448        1</span>
+<span class="co">#&gt; 5 373.000  319.1     4    6095  2514        1</span>
+<span class="co">#&gt; 6 466.275  414.5     5    8566  2754        1</span></code></pre></div>
+</div>
+<div id="code" class="section level2">
+<h2 class="hasAnchor">
+<a href="#code" class="anchor"></a>Code</h2>
+<div id="robust-standard-errors" class="section level3">
+<h3 class="hasAnchor">
+<a href="#robust-standard-errors" class="anchor"></a>Robust standard errors</h3>
+<p>Several functions have an <code>vce</code> parameter that allows the use of variance covariance estimators consistent in the presence of heteroskedasticity or autocorrelation.</p>
+<p>Output from regression models is usually examined with the <code>summary</code> function:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">mod</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">price</span> <span class="op">~</span> <span class="va">sqrft</span> <span class="op">+</span> <span class="va">bdrms</span> <span class="op">+</span> <span class="va">colonial</span>, data <span class="op">=</span> <span class="va">hprice1</span><span class="op">)</span>
+
+<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">mod</span><span class="op">)</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Call:</span>
+<span class="co">#&gt; lm(formula = price ~ sqrft + bdrms + colonial, data = hprice1)</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Residuals:</span>
+<span class="co">#&gt;      Min       1Q   Median       3Q      Max </span>
+<span class="co">#&gt; -129.793  -40.167   -5.588   30.447  227.011 </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Coefficients:</span>
+<span class="co">#&gt;              Estimate Std. Error t value Pr(&gt;|t|)    </span>
+<span class="co">#&gt; (Intercept) -21.55241   31.21022  -0.691    0.492    </span>
+<span class="co">#&gt; sqrft         0.12985    0.01395   9.310 1.41e-14 ***</span>
+<span class="co">#&gt; bdrms        12.48749   10.02366   1.246    0.216    </span>
+<span class="co">#&gt; colonial     13.07755   15.43591   0.847    0.399    </span>
+<span class="co">#&gt; ---</span>
+<span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Residual standard error: 63.15 on 84 degrees of freedom</span>
+<span class="co">#&gt; Multiple R-squared:  0.635,  Adjusted R-squared:  0.622 </span>
+<span class="co">#&gt; F-statistic: 48.72 on 3 and 84 DF,  p-value: &lt; 2.2e-16</span></code></pre></div>
+<p>But <code>summary</code> only shows the OLS standard errors of estimates. The <code>coef_table</code> function produces output similar to <code>summary</code> but allows other covariance matrix estimators:</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Heteroskedasticity consistent errors</span>
+<span class="fu"><a href="reference/coef_table.html">coef_table</a></span><span class="op">(</span><span class="va">mod</span>, vce <span class="op">=</span> <span class="st">"HC"</span><span class="op">)</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Call:</span>
+<span class="co">#&gt; lm(price ~ sqrft + bdrms + colonial, data = hprice1)</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Covariance matrix estimate: HC.</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Coefficients: </span>
+<span class="co">#&gt;               Estimate Std. Error t value  Pr(&gt;|t|)    </span>
+<span class="co">#&gt; (Intercept) -21.552414  45.840628 -0.4702    0.6395    </span>
+<span class="co">#&gt; sqrft         0.129849   0.021651  5.9973 4.876e-08 ***</span>
+<span class="co">#&gt; bdrms        12.487493  11.018019  1.1334    0.2603    </span>
+<span class="co">#&gt; colonial     13.077547  19.126077  0.6838    0.4960    </span>
+<span class="co">#&gt; ---</span>
+<span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Residual standard error: 63.15 on 84 degrees of freedom</span>
+<span class="co">#&gt; Multiple R-squared:  0.635,  Adjusted R-squared:  0.622 </span>
+<span class="co">#&gt; F-statistic: 16.75 on 3 and 84 DF,  p-value: 1.289e-08</span></code></pre></div>
+<p>Also, the <code>se</code> function computes standard errors robust to heteroskedasticity and autocorrelation. See more details in the documentation of this function.</p>
+</div>
+<div id="heteroskedasticity-tests" class="section level3">
+<h3 class="hasAnchor">
+<a href="#heteroskedasticity-tests" class="anchor"></a>Heteroskedasticity tests</h3>
+<p>The function <code>white_test</code> computes White’s test for heteroskedasticity:</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="reference/white_test.html">white_test</a></span><span class="op">(</span><span class="va">mod</span><span class="op">)</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;  White's test for heteroskedasticity</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; data:  Auxiliary regression of squared residuals from:</span>
+<span class="co">#&gt;   lm(price ~ sqrft + bdrms + colonial, data = hprice1)</span>
+<span class="co">#&gt; on all covariates, their squares and cross-products.</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; F = 2.6942, df1 = 8, df2 = 79, p-value = 0.01128</span></code></pre></div>
+<p>The function <code>het_test</code> computes LM tests for heteroskedasticity that allow the user to specify the variables related to hetroskedasticity.</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Using all covariates</span>
+<span class="fu"><a href="reference/het_test.html">het_test</a></span><span class="op">(</span><span class="va">mod</span><span class="op">)</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;  LM test for heteroskedasticity</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; data:  Auxiliary regression of squared residuals from:</span>
+<span class="co">#&gt;   lm(price ~ sqrft + bdrms + colonial, data = hprice1)</span>
+<span class="co">#&gt; on all covariates.</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; F = 4.7726, df1 = 3, df2 = 84, p-value = 0.004035</span>
+
+<span class="co"># Using only sqrft and colonial</span>
+<span class="fu"><a href="reference/het_test.html">het_test</a></span><span class="op">(</span><span class="va">mod</span>, <span class="op">~</span> <span class="va">sqrft</span> <span class="op">+</span> <span class="va">colonial</span><span class="op">)</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;  LM test for heteroskedasticity</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; data:  Auxiliary regression of squared residuals from:</span>
+<span class="co">#&gt;   lm(price ~ sqrft + bdrms + colonial, data = hprice1)</span>
+<span class="co">#&gt; on: ~sqrft + colonial.</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; F = 5.9392, df1 = 2, df2 = 85, p-value = 0.003852</span></code></pre></div>
+</div>
+<div id="hypotheses-tests" class="section level3">
+<h3 class="hasAnchor">
+<a href="#hypotheses-tests" class="anchor"></a>Hypotheses tests</h3>
+<p>The <code>drop_test</code> function performs a Wald test of the null joint hypotheses that the parameters of some variables are 0. The <code>vce</code> argument allows the use of alternative covariance matrix estimators.</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Joint significant test with the OLS covariance matrix estimator</span>
+<span class="fu"><a href="reference/drop_test.html">drop_test</a></span><span class="op">(</span><span class="va">mod</span><span class="op">)</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;  Wald test for redundant variables</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; data:  Test for redudancy of all covariates.</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Call:</span>
+<span class="co">#&gt;   lm(price ~ sqrft + bdrms + colonial, data = hprice1)</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; F = 48.72, df1 = 3, df2 = 84, p-value &lt; 2.2e-16</span>
+
+<span class="co"># Now using a heteroskedasticity consistent covariance matrix estimator</span>
+<span class="fu"><a href="reference/drop_test.html">drop_test</a></span><span class="op">(</span><span class="va">mod</span>, vce <span class="op">=</span> <span class="st">"HC"</span><span class="op">)</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;  Wald test for redundant variables</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; data:  Test for redudancy of all covariates.</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Call:</span>
+<span class="co">#&gt;   lm(price ~ sqrft + bdrms + colonial, data = hprice1)</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Covariance matrix estimate: HC.</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; F = 16.749, df1 = 3, df2 = 84, p-value = 1.289e-08</span>
+
+<span class="co"># Heteroskedasticity robust rest test on the joint signifinace of </span>
+<span class="co"># bdrms and colonial</span>
+<span class="fu"><a href="reference/drop_test.html">drop_test</a></span><span class="op">(</span><span class="va">mod</span>, <span class="op">~</span> <span class="va">bdrms</span> <span class="op">+</span> <span class="va">colonial</span>, vce <span class="op">=</span> <span class="st">"HC"</span><span class="op">)</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;  Wald test for redundant variables</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; data:  Test for redudancy of ~bdrms + colonial.</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Call:</span>
+<span class="co">#&gt;   lm(price ~ sqrft + bdrms + colonial, data = hprice1)</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Covariance matrix estimate: HC.</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; F = 1.3769, df1 = 2, df2 = 84, p-value = 0.258</span></code></pre></div>
+</div>
 </div>
 </div>
   </div>
