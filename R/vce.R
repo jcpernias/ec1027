@@ -1,3 +1,12 @@
+# This function provides support for the argument `vce` present in
+# several functions of this package.
+# `how` can be:
+# - NULL: obtain the covariance matrix using stats::vcov.
+# - a string that indicates the type of covariance matrix.
+# - a matrix with the covariance matrix.
+# - a function that computes the covariance matrix: `how(mod)`
+# The returned covariance matrix include rows and columns of NA's for aliased
+# coefficients.
 get_vce <- function(mod, how = NULL) {
   err <- NULL
   V <- NULL
