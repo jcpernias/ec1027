@@ -7,24 +7,45 @@
 se(model, vce = NULL)
 }
 \arguments{
-\item{model}{an estimated model}
+\item{model}{an estimated model returned by \code{lm} or similar functions.}
 
-\item{vce}{a function to compute the covariance matrix of estimates}
+\item{vce}{an object indicating how to obtain the covariance matrix.}
 }
 \value{
-a named vector
+A named vector with the standard errors of the estimates.
 }
 \description{
-Standard errors of coefficient estimates
+Get the standard error of the estimates of the \code{model} parameters.
+}
+\details{
+The parameter \code{vce} controls how the covariance matrix of estimates is computed:
+\itemize{
+\item If \code{vce} is \code{NULL} (the default), the covariance matrix is computed using
+\code{\link[stats:vcov]{vcov}}: \code{vcov(model)}.
+\item \code{vce} can be a string that indicates which type of covariance matrix is used.
+Covariance matrices robust to heteroskedasticity are computed with \code{vce = "HC"}.
+Other variants valid under heteroskedasticity are "HC0", "HC1", "HC2" and "HC3"
+(which is equivalent to "HC"). Newey and West proposed a covariance matrix
+estimator valid under autocorrelation and heteroskedasticity. This estimator
+is computed by setting \code{vce}equal to "NW" or "HAC".
+\item \code{vce} can also be a function. In that case the covariance matrix is
+estimated by calling that function: \code{vce(model)}.
+\item Finally, a covariance matrix can be passed ditevtly to \code{vce}.
+}
+
+The \code{model} object should support the \link[stats:coef]{coef} and
+\link[stats:vcov]{vcov} methods.
 }
 \examples{
 data("hprice1")
 
-mod <- lm(price ~ sqrft + lotsize + bdrms, data = hprice1)
+mod <- lm(price ~ sqrft + bdrms, data = hprice1)
 se(mod)
-# Get heteroskedasticity robust standard errors
-if (require(sandwich)) {
-  se(mod, vcovHC)
-}
 
+# Get heteroskedasticity robust standard errors
+se(mod, vce = "HC")
+
+}
+\seealso{
+\link[sandwich:vcovHC]{sandwich::vcovHC}, \link[sandwich:NeweyWest]{sandwich::NeweyWest}.
 }
