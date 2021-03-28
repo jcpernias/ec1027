@@ -40,7 +40,9 @@
 
 
 <meta property="og:title" content="Wald test for the exclusion of regressors — drop_test" />
-<meta property="og:description" content="Wald test for the exclusion of regressors" />
+<meta property="og:description" content="Test that variables in frml can be excluded from model using a Wald test.
+The parameter vce determines how is computed the covariance matrix of the
+model parameters (see se())." />
 
 
 
@@ -114,7 +116,9 @@
     </div>
 
     <div class="ref-description">
-    <p>Wald test for the exclusion of regressors</p>
+    <p>Test that variables in <code>frml</code> can be excluded from <code>model</code> using a Wald test.
+The parameter <code>vce</code> determines how is computed the covariance matrix of the
+model parameters (see <a href='se.html'>se()</a>).</p>
     </div>
 
     <pre class="usage"><span class='fu'>drop_test</span><span class='op'>(</span><span class='va'>model</span>, frml <span class='op'>=</span> <span class='cn'>NULL</span>, vce <span class='op'>=</span> <span class='cn'>NULL</span>, chisq <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
@@ -124,28 +128,27 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>model</th>
-      <td><p>an <code>lm</code>  object.</p></td>
+      <td><p>an estimated model returned by <code>lm</code> or similar functions.</p></td>
     </tr>
     <tr>
       <th>frml</th>
       <td><p>an one-sided formula specifying the terms to be tested.
-If <code>NULL</code> the model regressors are used.</p></td>
+If <code>NULL</code> all of the model regressors are used.</p></td>
     </tr>
     <tr>
       <th>vce</th>
-      <td><p>a function computing the variance of the estimates.
-If <code>NULL</code>, <code>vcov</code> is used.</p></td>
+      <td><p>an object indicating how to obtain the covariance matrix.</p></td>
     </tr>
     <tr>
       <th>chisq</th>
-      <td><p>if <code>TRUE</code> compute the chi-squared statistic. Else compute
-the F statistic.</p></td>
+      <td><p>if <code>TRUE</code> the \(\chi^2\) version is returned.
+By default is <code>FALSE</code> and the F version is computed.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>an object of class <code>htest</code> with components:</p><dl>
+    <p>An object of class <code>htest</code> with components:</p><dl>
 <dt>statistic</dt><dd><p>the value of the test statistic.</p></dd>
 <dt>p.value</dt><dd><p>the p-value of the test.</p></dd>
 <dt>parameter</dt><dd><p>degrees of freedom.</p></dd>
@@ -159,18 +162,37 @@ performed.</p></dd>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"hprice1"</span><span class='op'>)</span>
 
-<span class='va'>mod</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>price</span> <span class='op'>~</span> <span class='va'>sqrft</span> <span class='op'>+</span> <span class='va'>lotsize</span> <span class='op'>+</span> <span class='va'>bdrms</span>, data <span class='op'>=</span> <span class='va'>hprice1</span><span class='op'>)</span>
-<span class='fu'>drop_test</span><span class='op'>(</span><span class='va'>mod</span><span class='op'>)</span>
+<span class='va'>mod</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>price</span> <span class='op'>~</span> <span class='va'>sqrft</span> <span class='op'>+</span> <span class='va'>bdrms</span> <span class='op'>+</span> <span class='va'>colonial</span>, data <span class='op'>=</span> <span class='va'>hprice1</span><span class='op'>)</span>
+
+<span class='co'># Heteroskedasticity-robust joint significance test</span>
+<span class='fu'>drop_test</span><span class='op'>(</span><span class='va'>mod</span>, vce <span class='op'>=</span> <span class='st'>"HC"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; 
 #&gt; 	Wald test for redundant variables
 #&gt; 
 #&gt; data:  Test for redudancy of all covariates.
 #&gt; 
 #&gt; Call:
-#&gt;   lm(price ~ sqrft + lotsize + bdrms, data = hprice1)
+#&gt;   lm(price ~ sqrft + bdrms + colonial, data = hprice1)
+#&gt; 
+#&gt; Covariance matrix estimate: HC.
 #&gt; 
 #&gt; 
-#&gt; F = 57.46, df1 = 3, df2 = 84, p-value &lt; 2.2e-16
+#&gt; F = 16.749, df1 = 3, df2 = 84, p-value = 1.289e-08
+#&gt; </div><div class='input'>
+<span class='co'># Test that bdrms and colonial are redundant (heteroskedasticity robust)</span>
+<span class='fu'>drop_test</span><span class='op'>(</span><span class='va'>mod</span>, <span class='op'>~</span> <span class='va'>bdrms</span> <span class='op'>+</span> <span class='va'>colonial</span>, vce <span class='op'>=</span> <span class='st'>"HC"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 
+#&gt; 	Wald test for redundant variables
+#&gt; 
+#&gt; data:  Test for redudancy of ~bdrms + colonial.
+#&gt; 
+#&gt; Call:
+#&gt;   lm(price ~ sqrft + bdrms + colonial, data = hprice1)
+#&gt; 
+#&gt; Covariance matrix estimate: HC.
+#&gt; 
+#&gt; 
+#&gt; F = 1.3769, df1 = 2, df2 = 84, p-value = 0.258
 #&gt; </div><div class='input'>
 </div></pre>
   </div>

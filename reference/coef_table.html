@@ -40,7 +40,9 @@
 
 
 <meta property="og:title" content="Print coefficient estimates table — coef_table" />
-<meta property="og:description" content="Print coefficient estimates table" />
+<meta property="og:description" content="Display the output of models estimated with lm() or similar
+functions. The parameter vce allows to use covariance matrices consistent
+to heteroskedasticity and autocorrelation (see the documentation of se())." />
 
 
 
@@ -114,53 +116,70 @@
     </div>
 
     <div class="ref-description">
-    <p>Print coefficient estimates table</p>
+    <p>Display the output of models estimated with <code><a href='https://rdrr.io/r/stats/lm.html'>lm()</a></code> or similar
+functions. The parameter <code>vce</code> allows to use covariance matrices consistent
+to heteroskedasticity and autocorrelation (see the documentation of <code><a href='se.html'>se()</a></code>).</p>
     </div>
 
-    <pre class="usage"><span class='fu'>coef_table</span><span class='op'>(</span><span class='va'>mod</span>, vce <span class='op'>=</span> <span class='cn'>NULL</span>, digits <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span><span class='op'>(</span><span class='fl'>3L</span>, <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span><span class='op'>(</span><span class='st'>"digits"</span><span class='op'>)</span> <span class='op'>-</span> <span class='fl'>3L</span><span class='op'>)</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>coef_table</span><span class='op'>(</span><span class='va'>model</span>, vce <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>mod</th>
-      <td><p>an estimated model</p></td>
+      <th>model</th>
+      <td><p>an estimated model returned by <code>lm</code> or similar functions.</p></td>
     </tr>
     <tr>
       <th>vce</th>
-      <td><p>a function to compute the covariance matrix of estimates</p></td>
-    </tr>
-    <tr>
-      <th>digits</th>
-      <td><p>number of digits to print</p></td>
+      <td><p>an object indicating how to obtain the covariance matrix.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>invisibly returns the coefficient table</p>
+    <p>Invisibly returns the coefficient table</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"hprice1"</span><span class='op'>)</span>
 
-<span class='va'>mod</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>price</span> <span class='op'>~</span> <span class='va'>sqrft</span> <span class='op'>+</span> <span class='va'>lotsize</span> <span class='op'>+</span> <span class='va'>bdrms</span>, data <span class='op'>=</span> <span class='va'>hprice1</span><span class='op'>)</span>
+<span class='va'>mod</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>price</span> <span class='op'>~</span> <span class='va'>sqrft</span> <span class='op'>+</span> <span class='va'>bdrms</span>, data <span class='op'>=</span> <span class='va'>hprice1</span><span class='op'>)</span>
 <span class='fu'>coef_table</span><span class='op'>(</span><span class='va'>mod</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; 
 #&gt; Call:
-#&gt; lm(price ~ sqrft + lotsize + bdrms, data = hprice1)
+#&gt; lm(price ~ sqrft + bdrms, data = hprice1)
 #&gt; 
 #&gt; Coefficients: 
-#&gt;                Estimate  Std. Error t value  Pr(&gt;|t|)    
-#&gt; (Intercept) -2.1770e+01  2.9475e+01 -0.7386  0.462208    
-#&gt; sqrft        1.2278e-01  1.3237e-02  9.2751 1.658e-14 ***
-#&gt; lotsize      2.0677e-03  6.4213e-04  3.2201  0.001823 ** 
-#&gt; bdrms        1.3853e+01  9.0101e+00  1.5374  0.127945    
+#&gt;               Estimate Std. Error t value  Pr(&gt;|t|)    
+#&gt; (Intercept) -19.314996  31.046619 -0.6221    0.5355    
+#&gt; sqrft         0.128436   0.013824  9.2905 1.394e-14 ***
+#&gt; bdrms        15.198191   9.483517  1.6026    0.1127    
 #&gt; ---
 #&gt; Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 #&gt; 
-#&gt; Residual standard error: 59.83 on 84 degrees of freedom
-#&gt; Multiple R-squared:  0.6724,	Adjusted R-squared:  0.6607 
-#&gt; F-statistic: 57.46 on 3 and 84 DF,  p-value: &lt; 2.2e-16 
+#&gt; Residual standard error: 63.0448 on 85 degrees of freedom
+#&gt; Multiple R-squared:  0.6319,	Adjusted R-squared:  0.6233 
+#&gt; F-statistic: 72.96 on 2 and 85 DF,  p-value: &lt; 2.22e-16 
+#&gt; </div><div class='input'>
+<span class='co'># Heteroskedasticity consistent standard errors</span>
+<span class='fu'>coef_table</span><span class='op'>(</span><span class='va'>mod</span>, vce <span class='op'>=</span> <span class='st'>"HC"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 
+#&gt; Call:
+#&gt; lm(price ~ sqrft + bdrms, data = hprice1)
+#&gt; 
+#&gt; Covariance matrix estimate: HC.
+#&gt; 
+#&gt; Coefficients: 
+#&gt;               Estimate Std. Error t value  Pr(&gt;|t|)    
+#&gt; (Intercept) -19.314996  44.979708 -0.4294    0.6687    
+#&gt; sqrft         0.128436   0.021363  6.0121 4.438e-08 ***
+#&gt; bdrms        15.198191   9.993865  1.5208    0.1320    
+#&gt; ---
+#&gt; Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+#&gt; 
+#&gt; Residual standard error: 63.0448 on 85 degrees of freedom
+#&gt; Multiple R-squared:  0.6319,	Adjusted R-squared:  0.6233 
+#&gt; F-statistic: 23.2 on 2 and 85 DF,  p-value: 9.1211e-09 
 #&gt; </div><div class='input'>
 </div></pre>
   </div>

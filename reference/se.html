@@ -40,7 +40,7 @@
 
 
 <meta property="og:title" content="Standard errors of coefficient estimates — se" />
-<meta property="og:description" content="Standard errors of coefficient estimates" />
+<meta property="og:description" content="Get the standard error of the estimates of the model parameters." />
 
 
 
@@ -114,7 +114,7 @@
     </div>
 
     <div class="ref-description">
-    <p>Standard errors of coefficient estimates</p>
+    <p>Get the standard error of the estimates of the <code>model</code> parameters.</p>
     </div>
 
     <pre class="usage"><span class='fu'>se</span><span class='op'>(</span><span class='va'>model</span>, vce <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
@@ -124,30 +124,50 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>model</th>
-      <td><p>an estimated model</p></td>
+      <td><p>an estimated model returned by <code>lm</code> or similar functions.</p></td>
     </tr>
     <tr>
       <th>vce</th>
-      <td><p>a function to compute the covariance matrix of estimates</p></td>
+      <td><p>an object indicating how to obtain the covariance matrix.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a named vector</p>
+    <p>A named vector with the standard errors of the estimates.</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>The parameter <code>vce</code> controls how the covariance matrix of estimates is computed:</p><ul>
+<li><p>If <code>vce</code> is <code>NULL</code> (the default), the covariance matrix is computed using
+<code><a href='https://rdrr.io/r/stats/vcov.html'>vcov</a></code>: <code><a href='https://rdrr.io/r/stats/vcov.html'>vcov(model)</a></code>.</p></li>
+<li><p><code>vce</code> can be a string that indicates which type of covariance matrix is used.
+Covariance matrices robust to heteroskedasticity are computed with <code>vce = "HC"</code>.
+Other variants valid under heteroskedasticity are "HC0", "HC1", "HC2" and "HC3"
+(which is equivalent to "HC"). Newey and West proposed a covariance matrix
+estimator valid under autocorrelation and heteroskedasticity. This estimator
+is computed by setting <code>vce</code>equal to "NW" or "HAC".</p></li>
+<li><p><code>vce</code> can also be a function. In that case the covariance matrix is
+estimated by calling that function: <code>vce(model)</code>.</p></li>
+<li><p>Finally, a covariance matrix can be passed ditevtly to <code>vce</code>.</p></li>
+</ul>
+
+<p>The <code>model</code> object should support the <code><a href='https://rdrr.io/r/stats/coef.html'>coef</a></code> and
+<code><a href='https://rdrr.io/r/stats/vcov.html'>vcov</a></code> methods.</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><a href='https://sandwich.R-Forge.R-project.org//reference/vcovHC.html'>sandwich::vcovHC</a>, <a href='https://sandwich.R-Forge.R-project.org//reference/NeweyWest.html'>sandwich::NeweyWest</a>.</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"hprice1"</span><span class='op'>)</span>
 
-<span class='va'>mod</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>price</span> <span class='op'>~</span> <span class='va'>sqrft</span> <span class='op'>+</span> <span class='va'>lotsize</span> <span class='op'>+</span> <span class='va'>bdrms</span>, data <span class='op'>=</span> <span class='va'>hprice1</span><span class='op'>)</span>
+<span class='va'>mod</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>price</span> <span class='op'>~</span> <span class='va'>sqrft</span> <span class='op'>+</span> <span class='va'>bdrms</span>, data <span class='op'>=</span> <span class='va'>hprice1</span><span class='op'>)</span>
 <span class='fu'>se</span><span class='op'>(</span><span class='va'>mod</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;  (Intercept)        sqrft      lotsize        bdrms 
-#&gt; 2.947504e+01 1.323741e-02 6.421258e-04 9.010145e+00 </div><div class='input'><span class='co'># Get heteroskedasticity robust standard errors</span>
-<span class='kw'>if</span> <span class='op'>(</span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='va'><a href='http://sandwich.R-Forge.R-project.org/'>sandwich</a></span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
-  <span class='fu'>se</span><span class='op'>(</span><span class='va'>mod</span>, <span class='va'>vcovHC</span><span class='op'>)</span>
-<span class='op'>}</span>
-</div><div class='output co'>#&gt; <span class='message'>Loading required package: sandwich</span></div><div class='output co'>#&gt;  (Intercept)        sqrft      lotsize        bdrms 
-#&gt; 41.032694404  0.040732542  0.007148464 11.561790104 </div><div class='input'>
+</div><div class='output co'>#&gt; (Intercept)       sqrft       bdrms 
+#&gt; 31.04661929  0.01382446  9.48351703 </div><div class='input'>
+<span class='co'># Get heteroskedasticity robust standard errors</span>
+<span class='fu'>se</span><span class='op'>(</span><span class='va'>mod</span>, vce <span class='op'>=</span> <span class='st'>"HC"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; (Intercept)       sqrft       bdrms 
+#&gt; 44.97970789  0.02136283  9.99386464 </div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

@@ -40,7 +40,8 @@
 
 
 <meta property="og:title" content="LM test for heteroskedasticity — het_test" />
-<meta property="og:description" content="LM test for heteroskedasticity" />
+<meta property="og:description" content="Fit an auxiliary regression of the squared MCO residual on the covariates
+specified in frml." />
 
 
 
@@ -114,33 +115,34 @@
     </div>
 
     <div class="ref-description">
-    <p>LM test for heteroskedasticity</p>
+    <p>Fit an auxiliary regression of the squared MCO residual on the covariates
+specified in <code>frml</code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>het_test</span><span class='op'>(</span><span class='va'>model</span>, var <span class='op'>=</span> <span class='cn'>NULL</span>, chisq <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>het_test</span><span class='op'>(</span><span class='va'>model</span>, frml <span class='op'>=</span> <span class='cn'>NULL</span>, chisq <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>model</th>
-      <td><p>an <code>lm</code>  object.</p></td>
+      <td><p>an estimated model returned by <code>lm</code> or similar functions.</p></td>
     </tr>
     <tr>
-      <th>var</th>
-      <td><p>an one-sided formula for the variance function. If <code>NULL</code>
-the model regressors are used.</p></td>
+      <th>frml</th>
+      <td><p>an one-sided with the regressors of the auxiliary regression.
+If <code>NULL</code> all of the model regressors are used in the auxiliary regression.</p></td>
     </tr>
     <tr>
       <th>chisq</th>
-      <td><p>if <code>TRUE</code> compute the chi-squared statistic. Else compute
-the F statistic.</p></td>
+      <td><p>if <code>TRUE</code> the LM statistic of the auxiliary regression is
+returned. By default is <code>FALSE</code> and the F statistic is computed.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>an object of class <code>htest</code> with components:</p><dl>
+    <p>An object of class <code>htest</code> with components:</p><dl>
 <dt>statistic</dt><dd><p>the value of the test statistic.</p></dd>
 <dt>p.value</dt><dd><p>the p-value of the test.</p></dd>
 <dt>parameter</dt><dd><p>degrees of freedom.</p></dd>
@@ -150,21 +152,41 @@ performed.</p></dd>
 
 </dl>
 
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>By default, the test is the F statistic of the auxiliary regression. The LM
+version of the test is the product of the umber of observations and the
+R-squared and it is distributed as a \(\chi^2\) under the null hypothesis of
+homoskedasticity.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"hprice1"</span><span class='op'>)</span>
 
-<span class='va'>mod</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>price</span> <span class='op'>~</span> <span class='va'>sqrft</span> <span class='op'>+</span> <span class='va'>lotsize</span> <span class='op'>+</span> <span class='va'>bdrms</span>, data <span class='op'>=</span> <span class='va'>hprice1</span><span class='op'>)</span>
+<span class='va'>mod</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>price</span> <span class='op'>~</span> <span class='va'>sqrft</span> <span class='op'>+</span> <span class='va'>bdrms</span>, data <span class='op'>=</span> <span class='va'>hprice1</span><span class='op'>)</span>
+
+<span class='co'># Test using all regressorn in mod</span>
 <span class='fu'>het_test</span><span class='op'>(</span><span class='va'>mod</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; 
 #&gt; 	LM test for heteroskedasticity
 #&gt; 
 #&gt; data:  Auxiliary regression of squared residuals from:
-#&gt;   lm(price ~ sqrft + lotsize + bdrms, data = hprice1)
+#&gt;   lm(price ~ sqrft + bdrms, data = hprice1)
 #&gt; on all covariates.
 #&gt; 
 #&gt; 
-#&gt; F = 5.3389, df1 = 3, df2 = 84, p-value = 0.002048
+#&gt; F = 5.8056, df1 = 2, df2 = 85, p-value = 0.004331
+#&gt; </div><div class='input'>
+<span class='co'># Using sqrft only</span>
+<span class='fu'>het_test</span><span class='op'>(</span><span class='va'>mod</span>, <span class='op'>~</span> <span class='va'>sqrft</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 
+#&gt; 	LM test for heteroskedasticity
+#&gt; 
+#&gt; data:  Auxiliary regression of squared residuals from:
+#&gt;   lm(price ~ sqrft + bdrms, data = hprice1)
+#&gt; on: ~sqrft.
+#&gt; 
+#&gt; 
+#&gt; F = 10.621, df1 = 1, df2 = 86, p-value = 0.001602
 #&gt; </div><div class='input'>
 </div></pre>
   </div>

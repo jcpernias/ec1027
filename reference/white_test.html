@@ -130,7 +130,7 @@ Test for Heteroskedasticity". <em>Econometrica</em>. <strong>48</strong>(4),
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>model</th>
-      <td><p>an <code>lm</code>  object.</p></td>
+      <td><p>an estimated model returned by <code>lm</code> or similar functions.</p></td>
     </tr>
     <tr>
       <th>full</th>
@@ -140,14 +140,14 @@ regressors and their squares.</p></td>
     </tr>
     <tr>
       <th>chisq</th>
-      <td><p>if <code>TRUE</code> compute the chi-squared statistic. Else compute
-the F statistic.</p></td>
+      <td><p>if <code>TRUE</code> the LM statistic of the auxiliary regression is
+returned. By default is <code>FALSE</code> and the F statistic is computed.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>an object of class <code>htest</code> with components:</p><dl>
+    <p>An object of class <code>htest</code> with components:</p><dl>
 <dt>statistic</dt><dd><p>the value of the test statistic.</p></dd>
 <dt>p.value</dt><dd><p>the p-value of the test.</p></dd>
 <dt>parameter</dt><dd><p>degrees of freedom.</p></dd>
