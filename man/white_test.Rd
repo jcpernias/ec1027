@@ -7,17 +7,17 @@
 white_test(model, full = TRUE, chisq = FALSE)
 }
 \arguments{
-\item{model}{an \code{lm}  object.}
+\item{model}{an estimated model returned by \code{lm} or similar functions.}
 
 \item{full}{if \code{TRUE} add the regressors, their squares and their
 cross products to the auxiliary regression. If \code{FALSE} use only the
 regressors and their squares.}
 
-\item{chisq}{if \code{TRUE} compute the chi-squared statistic. Else compute
-the F statistic.}
+\item{chisq}{if \code{TRUE} the LM statistic of the auxiliary regression is
+returned. By default is \code{FALSE} and the F statistic is computed.}
 }
 \value{
-an object of class \code{htest} with components:
+An object of class \code{htest} with components:
 \describe{
 \item{statistic}{the value of the test statistic.}
 \item{p.value}{the p-value of the test.}

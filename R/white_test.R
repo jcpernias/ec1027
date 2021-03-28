@@ -5,14 +5,14 @@
 #' Test for Heteroskedasticity". \emph{Econometrica}. \strong{48}(4),
 #' 817--838.
 #'
-#' @param model an \code{lm}  object.
+#' @inheritParams se
 #' @param full if \code{TRUE} add the regressors, their squares and their
 #'   cross products to the auxiliary regression. If \code{FALSE} use only the
 #'   regressors and their squares.
-#' @param chisq if \code{TRUE} compute the chi-squared statistic. Else compute
-#'   the F statistic.
+#' @param chisq if `TRUE` the LM statistic of the auxiliary regression is
+#'   returned. By default is `FALSE` and the F statistic is computed.
 #'
-#' @return an object of class \code{htest} with components:
+#' @return An object of class \code{htest} with components:
 #'   \describe{
 #'     \item{statistic}{the value of the test statistic.}
 #'     \item{p.value}{the p-value of the test.}

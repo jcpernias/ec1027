@@ -1,29 +1,27 @@
 #' Wald test for the exclusion of regressors
 #'
-#' @param model an \code{lm}  object.
+#' Test that variables in `frml` can be excluded from `model` using a Wald test.
+#' The parameter `vce` determines how is computed the covariance matrix of the
+#' model parameters (see [se()][se]).
+#'
+#' @inheritParams se
 #' @param frml an one-sided formula specifying the terms to be tested.
-#'   If \code{NULL} the model regressors are used.
-#' @param chisq if \code{TRUE} compute the chi-squared statistic. Else compute
-#'   the F statistic.
-#' @param vce a function computing the variance of the estimates.
-#'   If \code{NULL}, \code{vcov} is used.
+#'   If \code{NULL} all of the model regressors are used.
+#' @param chisq if `TRUE` the \eqn{\chi^2} version is returned.
+#'   By default is `FALSE` and the F version is computed.
 #'
-#' @return an object of class \code{htest} with components:
-#'   \describe{
-#'     \item{statistic}{the value of the test statistic.}
-#'     \item{p.value}{the p-value of the test.}
-#'     \item{parameter}{degrees of freedom.}
-#'     \item{method}{a character string indicating what type of test was
-#'       performed.}
-#'     \item{data.name}{a character string describing the model.}
-#'   }
-#'
+#' @inherit white_test return
 #'
 #' @examples
 #' data("hprice1")
 #'
-#' mod <- lm(price ~ sqrft + lotsize + bdrms, data = hprice1)
-#' drop_test(mod)
+#' mod <- lm(price ~ sqrft + bdrms + colonial, data = hprice1)
+#'
+#' # Heteroskedasticity-robust joint significance test
+#' drop_test(mod, vce = "HC")
+#'
+#' # Test that bdrms and colonial are redundant (heteroskedasticity robust)
+#' drop_test(mod, ~ bdrms + colonial, vce = "HC")
 #'
 #' @export
 drop_test <- function(model, frml = NULL, vce = NULL, chisq = FALSE) {
@@ -39,8 +37,6 @@ drop_test <- function(model, frml = NULL, vce = NULL, chisq = FALSE) {
   } else {
     stop(paste0("Invalid vce argument: ", Vlst$err))
   }
-
-
 
   mf <- stats::model.frame(model)
 

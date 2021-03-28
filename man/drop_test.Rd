@@ -7,19 +7,18 @@
 drop_test(model, frml = NULL, vce = NULL, chisq = FALSE)
 }
 \arguments{
-\item{model}{an \code{lm}  object.}
+\item{model}{an estimated model returned by \code{lm} or similar functions.}
 
 \item{frml}{an one-sided formula specifying the terms to be tested.
-If \code{NULL} the model regressors are used.}
+If \code{NULL} all of the model regressors are used.}
 
-\item{vce}{a function computing the variance of the estimates.
-If \code{NULL}, \code{vcov} is used.}
+\item{vce}{an object indicating how to obtain the covariance matrix.}
 
-\item{chisq}{if \code{TRUE} compute the chi-squared statistic. Else compute
-the F statistic.}
+\item{chisq}{if \code{TRUE} the \eqn{\chi^2} version is returned.
+By default is \code{FALSE} and the F version is computed.}
 }
 \value{
-an object of class \code{htest} with components:
+An object of class \code{htest} with components:
 \describe{
 \item{statistic}{the value of the test statistic.}
 \item{p.value}{the p-value of the test.}
@@ -30,12 +29,19 @@ performed.}
 }
 }
 \description{
-Wald test for the exclusion of regressors
+Test that variables in \code{frml} can be excluded from \code{model} using a Wald test.
+The parameter \code{vce} determines how is computed the covariance matrix of the
+model parameters (see \link[=se]{se()}).
 }
 \examples{
 data("hprice1")
 
-mod <- lm(price ~ sqrft + lotsize + bdrms, data = hprice1)
-drop_test(mod)
+mod <- lm(price ~ sqrft + bdrms + colonial, data = hprice1)
+
+# Heteroskedasticity-robust joint significance test
+drop_test(mod, vce = "HC")
+
+# Test that bdrms and colonial are redundant (heteroskedasticity robust)
+drop_test(mod, ~ bdrms + colonial, vce = "HC")
 
 }

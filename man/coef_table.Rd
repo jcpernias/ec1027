@@ -15,9 +15,9 @@ coef_table(model, vce = NULL)
 Invisibly returns the coefficient table
 }
 \description{
-Display the output of models estimated with \link[stats:lm]{lm()} or similar
+Display the output of models estimated with \code{\link[stats:lm]{lm()}} or similar
 functions. The parameter \code{vce} allows to use covariance matrices consistent
-to heteroskedasticity and autocorrelation (see the documentation of \link[=se]{se()}).
+to heteroskedasticity and autocorrelation (see the documentation of \code{\link[=se]{se()}}).
 }
 \examples{
 data("hprice1")

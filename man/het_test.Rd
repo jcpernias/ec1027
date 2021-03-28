@@ -4,19 +4,19 @@
 \alias{het_test}
 \title{LM test for heteroskedasticity}
 \usage{
-het_test(model, var = NULL, chisq = FALSE)
+het_test(model, frml = NULL, chisq = FALSE)
 }
 \arguments{
-\item{model}{an \code{lm}  object.}
+\item{model}{an estimated model returned by \code{lm} or similar functions.}
 
-\item{var}{an one-sided formula for the variance function. If \code{NULL}
-the model regressors are used.}
+\item{frml}{an one-sided with the regressors of the auxiliary regression.
+If \code{NULL} all of the model regressors are used in the auxiliary regression.}
 
-\item{chisq}{if \code{TRUE} compute the chi-squared statistic. Else compute
-the F statistic.}
+\item{chisq}{if \code{TRUE} the LM statistic of the auxiliary regression is
+returned. By default is \code{FALSE} and the F statistic is computed.}
 }
 \value{
-an object of class \code{htest} with components:
+An object of class \code{htest} with components:
 \describe{
 \item{statistic}{the value of the test statistic.}
 \item{p.value}{the p-value of the test.}
@@ -27,12 +27,24 @@ performed.}
 }
 }
 \description{
-LM test for heteroskedasticity
+Fit an auxiliary regression of the squared MCO residual on the covariates
+specified in \code{frml}.
+}
+\details{
+By default, the test is the F statistic of the auxiliary regression. The LM
+version of the test is the product of the umber of observations and the
+R-squared and it is distributed as a \eqn{\chi^2} under the null hypothesis of
+homoskedasticity.
 }
 \examples{
 data("hprice1")
 
-mod <- lm(price ~ sqrft + lotsize + bdrms, data = hprice1)
+mod <- lm(price ~ sqrft + bdrms, data = hprice1)
+
+# Test using all regressorn in mod
 het_test(mod)
+
+# Using sqrft only
+het_test(mod, ~ sqrft)
 
 }

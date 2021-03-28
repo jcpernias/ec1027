@@ -33,8 +33,8 @@ estimated by calling that function: \code{vce(model)}.
 \item Finally, a covariance matrix can be passed ditevtly to \code{vce}.
 }
 
-The \code{model} object should support the \link[stats:coef]{coef} and
-\link[stats:vcov]{vcov} methods.
+The \code{model} object should support the \code{\link[stats:coef]{coef}} and
+\code{\link[stats:vcov]{vcov}} methods.
 }
 \examples{
 data("hprice1")
