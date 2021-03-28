@@ -47,7 +47,7 @@ coef_table <- function(mod, vce = NULL,
       "\n", sep = "")
   if(!is.null(vce)) {
     cat("\nCovariance matrix estimate: ",
-        vce_msg, "\n",
+        vce_msg, ".\n",
         sep = "")
   }
   cat("\n")

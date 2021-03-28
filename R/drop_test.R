@@ -86,7 +86,7 @@ drop_test <- function(model, frml = NULL, vce = NULL, chisq = FALSE) {
   otest$method <- "Wald test for redundant variables"
   vce_str <- ""
   if (!is.null(vce))
-    vce_str <- paste0("\nCovariance matrix estimate: ", vce_msg, ".)\n")
+    vce_str <- paste0("\nCovariance matrix estimate: ", vce_msg, ".\n")
   otest$data.name <- paste0("Test for redudancy of ", omit_str, ".\n\n",
                             "Call:\n  ", model_call(model), "\n",
                             vce_str, "\n")

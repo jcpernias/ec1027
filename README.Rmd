@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 <!-- badges: end -->
 
-This package provides datasets and some function to be used in the course EC1027 - Econometrics I.
+This package provides datasets and some functions to be used in the course EC1027 - Econometrics I.
 
 ## Installation
 
@@ -36,3 +36,98 @@ You can install the development version from [GitHub](https://github.com/) with:
 # install.packages("devtools")
 devtools::install_github("jcpernias/ec1027")
 ```
+
+## Datasets
+
+The `ec1027` package provides some datasets taken from Jeffrey M. Wooldridge (2006:) 
+*Introductory econometrics : a modern approach*, 3rd ed., Thomson South-Western:
+
+* `bwght`: Birth weight and cigarette smoking.
+
+* `earns`: Earnings, productivity and hours (macro).
+
+* `gpa1`: Gollege GPA and its predictors.
+
+* `hprice1`: House prices and characteristics.
+
+* `hseinv`: Housing investment and prices.
+
+* `intdef`: Interest rates and Federal budget balance.
+
+* `rdchem`: R & D and sales, chemical industry.
+
+* `traffic2`: Speed limits and highway safety.
+
+Note that the package [wooldridge](https://justinmshea.github.io/wooldridge/) provides access to many more datasets. Also note that derived variables (logarithms, lags, etc) are not included in the `ec1027` data sets.
+
+## Example
+
+Load the `ec1027` package and use `data` to bring one of the included data sets to the global environment.
+```{r}
+library(ec1027)
+
+## data on house prices
+data(hprice1)
+
+## Show the first observations
+head(hprice1)
+```
+
+
+## Code
+
+### Robust standard errors
+
+Several functions have an `vce` parameter that allows the use of variance covariance estimators consistent in the presence of heteroskedasticity or autocorrelation. 
+
+Output from regression models is usually examined with the `summary` function:
+```{r}
+mod <- lm(price ~ sqrft + bdrms + colonial, data = hprice1)
+
+summary(mod)
+```
+But `summary` only shows the OLS standard errors of estimates. The `coef_table` function produces output similar to `summary` but allows other covariance matrix estimators:
+```{r}
+# Heteroskedasticity consistent errors
+coef_table(mod, vce = "HC")
+```
+
+Also, the `se` function computes standard errors robust to heteroskedasticity and autocorrelation. See more details in the documentation of this function.
+
+
+### Heteroskedasticity tests
+
+The function `white_test` computes White's test for heteroskedasticity:
+```{r}
+white_test(mod)
+```
+
+The function `het_test` computes LM tests for heteroskedasticity that allow the user to specify the variables related to hetroskedasticity.
+```{r}
+# Using all covariates
+het_test(mod)
+
+# Using only sqrft and colonial
+het_test(mod, ~ sqrft + colonial)
+```
+
+
+
+### Hypotheses tests
+
+The `drop_test` function performs a Wald test of the null joint hypotheses that the parameters of some variables are 0.
+The `vce` argument allows the use of alternative covariance matrix estimators.
+```{r}
+# Joint significant test with the OLS covariance matrix estimator
+drop_test(mod)
+
+# Now using a heteroskedasticity consistent covariance matrix estimator
+drop_test(mod, vce = "HC")
+
+# Heteroskedasticity robust rest test on the joint signifinace of 
+# bdrms and colonial
+drop_test(mod, ~ bdrms + colonial, vce = "HC")
+```
+
+
+
