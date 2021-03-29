@@ -41,27 +41,27 @@ drop_test <- function(model, frml = NULL, vce = NULL, chisq = FALSE) {
   mf <- stats::model.frame(model)
 
   if (!is.null(frml)) {
-    if(length(frml) == 3) {
+    if (length(frml) == 3) {
       warning("frml should be a right hand only formula")
       frml[[2]] <- NULL
     }
     omit <- colnames(stats::model.matrix(stats::update(frml, ~ . + 0), data = mf))
     miss <- !omit %in% bhat_names
-    if(any(miss)) {
+    if (any(miss)) {
       msg <- paste0("Variables not found: ", paste(omit[miss]), collapse = ", ")
       stop(msg)
     }
     omit_str <- deparse1(frml)
   } else {
     mt <- attr(mf, "terms")
-    if(attr(mt, "intercept") == 0) {
+    if (attr(mt, "intercept") == 0) {
       stop("Model estimated without intercept")
     }
     omit <- bhat_names[-1L]
     omit_str <- "all covariates"
   }
 
-  if(length(omit) == 0) {
+  if (length(omit) == 0) {
     stop("No testable restrictions")
   }
 
@@ -69,7 +69,7 @@ drop_test <- function(model, frml = NULL, vce = NULL, chisq = FALSE) {
   aliased <- as.numeric(is.na(bhat))
   idx <- omit_idx & !aliased
   k <- sum(idx)
-  if(k == 0) {
+  if (k == 0) {
     stop("No testable restrictions because of aliasing")
   }
   stat <- sum(bhat[idx] * solve(Vbhat[idx, idx], bhat[idx]))
