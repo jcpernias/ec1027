@@ -8,7 +8,16 @@ test_that("joint significance test", {
 })
 
 test_that("joint significant test (hccm)", {
+  expect_s3_class(drop_test(mod, vce = "HC"), "htest")
+})
+
+test_that("joint significant test (pkg sandwich hccm)", {
   expect_s3_class(drop_test(mod, vce = vcovHC), "htest")
+})
+
+test_that("joint significant test (hccm matrix)", {
+  hccm <- vcovHC(mod)
+  expect_s3_class(drop_test(mod, vce = hccm), "htest")
 })
 
 test_that("significance of a subset of variables", {
@@ -16,7 +25,7 @@ test_that("significance of a subset of variables", {
 })
 
 test_that("significance of a subset of variables (hccm)", {
-  expect_s3_class(drop_test(mod, ~ sqrft + lotsize, vce = vcovHC), "htest")
+  expect_s3_class(drop_test(mod, ~ sqrft + lotsize, vce = "HC"), "htest")
 })
 
 test_that("joint significance and *", {
