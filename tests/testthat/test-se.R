@@ -36,3 +36,11 @@ test_that("aliased coefficients HC standard errors", {
   V <- .vcov.aliased(is.na(bhat), vcovHC(mod2, type = "HC3"))
   expect_equal(se(mod2, "HC"), sqrt(diag(V)))
 })
+
+test_that("passing invalid vce inputs", {
+  expect_error(se(mod, list(1, 2)))
+  expect_error(se(mod, c("HC", "HC2")))
+  expect_error(se(mod, TRUE))
+})
+
+
