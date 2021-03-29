@@ -13,7 +13,7 @@
 #'   is computed by setting `vce`equal to "NW" or "HAC".
 #' - `vce` can also be a function. In that case the covariance matrix is
 #'   estimated by calling that function: `vce(model)`.
-#' - Finally, a covariance matrix can be passed ditevtly to `vce`.
+#' - Finally, a covariance matrix can be passed directly to `vce`.
 #'
 #' The `model` object should support the [`coef`][stats::coef] and
 #' [`vcov`][stats::vcov] methods.
