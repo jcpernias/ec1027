@@ -29,3 +29,8 @@ test_that("coef_table with invalid vce", {
   expect_error(silently(coef_table(mod, vce = list(1, 2))))
   expect_error(silently(coef_table(mod, vce = TRUE)))
 })
+
+test_that("coef_table with a model without intercept", {
+  mod2 <- update(mod, . ~ . - 1)
+  expect_error(silently(coef_table(mod2)), NA)
+})
