@@ -20,13 +20,13 @@ test_that("significance of a subset of variables (hccm)", {
 })
 
 test_that("joint significance and *", {
-  mod <- lm(price ~ sqrft * lotsize + bdrms, data = hprice1)
-  expect_s3_class(drop_test(mod), "htest")
+  mod2 <- lm(price ~ sqrft * lotsize + bdrms, data = hprice1)
+  expect_s3_class(drop_test(mod2), "htest")
 })
 
-test_that("frml with ledt hand side", {
-  mod <- lm(price ~ sqrft * lotsize + bdrms, data = hprice1)
-  expect_warning(F <- drop_test(mod, frml = y ~ bdrms))
+test_that("frml with left hand side", {
+  mod2 <- lm(price ~ sqrft * lotsize + bdrms, data = hprice1)
+  expect_warning({F <- drop_test(mod2, frml = y ~ bdrms)})
   expect_s3_class(F, "htest")
 })
 
