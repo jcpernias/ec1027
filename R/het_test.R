@@ -27,7 +27,7 @@
 #'
 #' @export
 het_test <- function(model, frml = NULL, chisq = FALSE) {
-  if(is.null(frml)) {
+  if (is.null(frml)) {
     Z <- stats::model.matrix(model)
     frml_str <- paste0(" all covariates")
   } else {

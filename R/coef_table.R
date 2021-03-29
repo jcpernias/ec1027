@@ -49,7 +49,7 @@ coef_table <- function(model, vce = NULL) {
   ## Print summary
   cat("\nCall:\n", paste(model_call(model), sep = "\n", collapse = "\n"),
       "\n", sep = "")
-  if(!is.null(vce)) {
+  if (!is.null(vce)) {
     cat("\nCovariance matrix estimate: ",
         vce_msg, ".\n",
         sep = "")
@@ -96,7 +96,7 @@ coef_table <- function(model, vce = NULL) {
   ## Chek the model has an intercept
   mf <- stats::model.frame(model)
   mt <- attr(mf, "terms")
-  if(attr(mt, "intercept") != 0) {
+  if (attr(mt, "intercept") != 0) {
     cat("Multiple R-squared: ", formatC(R_sq))
     cat(",\tAdjusted R-squared: ", formatC(Rbar_sq), "\n")
 

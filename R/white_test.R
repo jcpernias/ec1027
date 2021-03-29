@@ -60,7 +60,7 @@ white_test_model_matrix <- function(model, full = TRUE) {
     cross_X <- matrix(nrow = nrow(X), ncol = k * (k - 1) / 2)
     nc <- 1
     for (i in 1:(k - 1)) {
-      for(j in (i + 1):k) {
+      for (j in (i + 1):k) {
         cross_X[, nc] <- X[, i] * X[, j]
         nc <- nc + 1
       }

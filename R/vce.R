@@ -11,7 +11,7 @@ get_vce <- function(mod, how = NULL) {
   err <- NULL
   V <- NULL
   msg <- NULL
-  if(is.null(how)) {
+  if (is.null(how)) {
     V <- stats::vcov(mod, complete = TRUE)
     msg <- "default"
   } else if (is.matrix(how)) {
@@ -21,7 +21,7 @@ get_vce <- function(mod, how = NULL) {
     V <- how(mod)
     msg <- paste0("calling function `", deparse1(substitute(how)), "`")
   } else if (is.character(how)) {
-    if(length(how) != 1) {
+    if (length(how) != 1) {
       err <- "character vector of length greater than 1"
     } else {
       if (how %in% c("HC", "HC0", "HC1", "HC2", "HC3")) {
