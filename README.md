@@ -4,6 +4,10 @@
 # ec1027
 
 <!-- badges: start -->
+
+[![R-CMD-check](https://github.com/jcpernias/ec1027/workflows/R-CMD-check/badge.svg)](https://github.com/jcpernias/ec1027/actions)
+[![Codecov test
+coverage](https://codecov.io/gh/jcpernias/ec1027/branch/master/graph/badge.svg)](https://codecov.io/gh/jcpernias/ec1027?branch=master)
 <!-- badges: end -->
 
 This package provides datasets and some functions to be used in the
@@ -135,9 +139,9 @@ coef_table(mod, vce = "HC")
 #> ---
 #> Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 #> 
-#> Residual standard error: 63.15 on 84 degrees of freedom
+#> Residual standard error: 63.1498 on 84 degrees of freedom
 #> Multiple R-squared:  0.635,  Adjusted R-squared:  0.622 
-#> F-statistic: 16.75 on 3 and 84 DF,  p-value: 1.289e-08
+#> F-statistic: 16.75 on 3 and 84 DF,  p-value: 1.2893e-08
 ```
 
 Also, the `se` function computes standard errors robust to

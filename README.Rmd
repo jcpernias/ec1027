@@ -16,6 +16,8 @@ knitr::opts_chunk$set(
 # ec1027
 
 <!-- badges: start -->
+[![R-CMD-check](https://github.com/jcpernias/ec1027/workflows/R-CMD-check/badge.svg)](https://github.com/jcpernias/ec1027/actions)
+[![Codecov test coverage](https://codecov.io/gh/jcpernias/ec1027/branch/master/graph/badge.svg)](https://codecov.io/gh/jcpernias/ec1027?branch=master)
 <!-- badges: end -->
 
 This package provides datasets and some functions to be used in the course EC1027 - Econometrics I.
