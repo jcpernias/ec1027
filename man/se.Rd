@@ -30,7 +30,7 @@ estimator valid under autocorrelation and heteroskedasticity. This estimator
 is computed by setting \code{vce}equal to "NW" or "HAC".
 \item \code{vce} can also be a function. In that case the covariance matrix is
 estimated by calling that function: \code{vce(model)}.
-\item Finally, a covariance matrix can be passed ditevtly to \code{vce}.
+\item Finally, a covariance matrix can be passed directly to \code{vce}.
 }
 
 The \code{model} object should support the \code{\link[stats:coef]{coef}} and
