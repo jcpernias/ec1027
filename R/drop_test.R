@@ -39,13 +39,23 @@ drop_test <- function(model, frml = NULL, vce = NULL, chisq = FALSE) {
   }
 
   mf <- stats::model.frame(model)
+  # Determine if the original model has an intercept
+  mt <- attr(mf, "terms")
+  has_intercept <- attr(mt, "intercept") != 0
 
   if (!is.null(frml)) {
     if (length(frml) == 3) {
-      warning("frml should be a right hand only formula")
+      warning("frml should be a one-sided formula")
       frml[[2]] <- NULL
     }
-    omit <- colnames(stats::model.matrix(stats::update(frml, ~ . + 0), data = mf))
+
+    # Ensure that frml only has an intercept if mod has one
+    if (has_intercept) {
+      frml <- stats::update(frml, ~ . + 1)
+    } else {
+      frml <- stats::update(frml, ~ . + 0)
+    }
+    omit <- colnames(stats::model.matrix(frml, data = mf))
     miss <- !omit %in% bhat_names
     if (any(miss)) {
       msg <- paste0("Variables not found: ", paste(omit[miss]), collapse = ", ")
@@ -53,8 +63,7 @@ drop_test <- function(model, frml = NULL, vce = NULL, chisq = FALSE) {
     }
     omit_str <- deparse1(frml)
   } else {
-    mt <- attr(mf, "terms")
-    if (attr(mt, "intercept") == 0) {
+    if (!has_intercept) {
       stop("Model estimated without intercept")
     }
     omit <- bhat_names[-1L]
