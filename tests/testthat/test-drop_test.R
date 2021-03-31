@@ -39,3 +39,9 @@ test_that("frml with left hand side", {
   expect_s3_class(F, "htest")
 })
 
+test_that("drop a logical variable", {
+  col_bool <- hprice1$colonial == 1
+  mod3 <- lm(price ~ sqrft + bdrms + col_bool, data = hprice1)
+  expect_error(drop_test(mod3, ~ col_bool), NA)
+})
+
