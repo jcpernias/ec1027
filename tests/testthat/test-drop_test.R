@@ -45,3 +45,9 @@ test_that("drop a logical variable", {
   expect_error(drop_test(mod3, ~ col_bool), NA)
 })
 
+test_that("drop a logical variable (no intercept)", {
+  col_bool <- hprice1$colonial == 1
+  mod3 <- lm(price ~ sqrft + bdrms + col_bool - 1, data = hprice1)
+  expect_error(drop_test(mod3, ~ col_bool), NA)
+})
+
