@@ -44,6 +44,7 @@ drop_test <- function(model, frml = NULL, vce = NULL, chisq = FALSE) {
   has_intercept <- attr(mt, "intercept") != 0
 
   if (!is.null(frml)) {
+    omit_str <- deparse1(frml)
     if (length(frml) == 3) {
       warning("frml should be a one-sided formula")
       frml[[2]] <- NULL
@@ -61,7 +62,6 @@ drop_test <- function(model, frml = NULL, vce = NULL, chisq = FALSE) {
       msg <- paste0("Variables not found: ", paste(omit[miss]), collapse = ", ")
       stop(msg)
     }
-    omit_str <- deparse1(frml)
   } else {
     if (!has_intercept) {
       stop("Model estimated without intercept")
