@@ -57,6 +57,8 @@ drop_test <- function(model, frml = NULL, vce = NULL, chisq = FALSE) {
       frml <- stats::update(frml, ~ . + 0)
     }
     omit <- colnames(stats::model.matrix(frml, data = mf))
+    if(has_intercept)
+      omit <- omit[-1L]
     miss <- !omit %in% bhat_names
     if (any(miss)) {
       msg <- paste0("Variables not found: ", paste(omit[miss]), collapse = ", ")
