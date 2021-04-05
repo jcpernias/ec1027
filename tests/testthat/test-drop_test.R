@@ -2,9 +2,25 @@ library(ec1027)
 library(sandwich)
 
 mod <- lm(price ~ sqrft + lotsize + bdrms, data = hprice1)
+b <- coef(mod)[-1]
+V <- vcov(mod)[-1, -1]
+df1 <- length(b)
+df2 <- df.residual(mod)
+Xstat <- sum(b * solve(V, b))
+Fstat <- Xstat / df1
 
 test_that("joint significance test", {
-  expect_s3_class(drop_test(mod), "htest")
+  expect_error({F <- drop_test(mod)}, NA)
+  expect_equal(F$statistic[[1]], Fstat)
+  expect_equal(F$parameter, c(df1 = df1, df2 = df2))
+  expect_equal(F$p.value, pf(Fstat, df1 = df1, df2 = df2, lower.tail = FALSE))
+})
+
+test_that("joint significance test: X-squared version", {
+  expect_error({X <- drop_test(mod, chisq = TRUE)}, NA)
+  expect_equal(X$statistic[[1]], Xstat)
+  expect_equal(X$parameter, c(df = df1))
+  expect_equal(X$p.value, pchisq(Xstat, df = df1, lower.tail = FALSE))
 })
 
 test_that("joint significant test (hccm)", {
