@@ -1,6 +1,6 @@
 Package: ec1027
 Title: Data and Functions for the course EC1027 - Econometrics I
-Version: 0.1.5.9000
+Version: 0.2.0.9000
 Authors@R: 
     person(given = "José",
            family = "Pernías",
