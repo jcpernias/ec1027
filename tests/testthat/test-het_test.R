@@ -18,7 +18,7 @@ test_that("het_test all covariates", {
   expect_equal(X2$parameter[[1]], length(coef(aux)) - 1)
 })
 
-test_that("het_test all covariates", {
+test_that("het_test some covariates", {
   aux <- update(mod, sq_uhat ~ . - bdrms)
   F1 <- drop_test(aux)
   expect_error({F2 <- het_test(mod, ~ sqrft + lotsize)}, NA)
