@@ -50,22 +50,25 @@ test_that("joint significant test: vce is a function", {
   expect_equal(F2$p.value, F1$p.value)
 })
 
-test_that("joint significant test (hccm matrix)", {
-  hccm <- vcovHC(mod)
-  expect_s3_class(drop_test(mod, vce = hccm), "htest")
+test_that("joint significant test: vce is a matrix", {
+  F1 <- drop_test(mod, vce = vcovHC(mod))
+  expect_error({F2 <- drop_test(mod, vce = vcovHC)}, NA)
+  expect_equal(F2$statistic, F1$statistic)
+  expect_equal(F2$parameter, F1$parameter)
+  expect_equal(F2$p.value, F1$p.value)
 })
 
 test_that("significance of a subset of variables", {
-  expect_s3_class(drop_test(mod, ~ sqrft + lotsize), "htest")
+  expect_error(drop_test(mod, ~ sqrft + lotsize), NA)
 })
 
 test_that("significance of a subset of variables (hccm)", {
-  expect_s3_class(drop_test(mod, ~ sqrft + lotsize, vce = "HC"), "htest")
+  expect_error(drop_test(mod, ~ sqrft + lotsize, vce = "HC"), NA)
 })
 
 test_that("joint significance and *", {
   mod2 <- lm(price ~ sqrft * lotsize + bdrms, data = hprice1)
-  expect_s3_class(drop_test(mod2), "htest")
+  expect_error(drop_test(mod2), NA)
 })
 
 test_that("frml with left hand side", {
