@@ -10,11 +10,11 @@ Xstat <- sum(b * solve(V, b))
 Fstat <- Xstat / df1
 
 test_that("joint significance test: F version", {
-  expect_error({F <- drop_test(mod)}, NA)
-  expect_s3_class(F, "htest")
-  expect_equal(F$statistic[[1]], Fstat)
-  expect_equal(F$parameter, c(df1 = df1, df2 = df2))
-  expect_equal(F$p.value, pf(Fstat, df1 = df1, df2 = df2, lower.tail = FALSE))
+  expect_error({f <- drop_test(mod)}, NA)
+  expect_s3_class(f, "htest")
+  expect_equal(f$statistic[[1]], Fstat)
+  expect_equal(f$parameter, c(df1 = df1, df2 = df2))
+  expect_equal(f$p.value, pf(Fstat, df1 = df1, df2 = df2, lower.tail = FALSE))
 })
 
 test_that("joint significance test: X-squared version", {
@@ -25,12 +25,29 @@ test_that("joint significance test: X-squared version", {
   expect_equal(X$p.value, pchisq(Xstat, df = df1, lower.tail = FALSE))
 })
 
-test_that("joint significant test (hccm)", {
-  expect_s3_class(drop_test(mod, vce = "HC"), "htest")
+test_that("joint significant test: vce is a valid string", {
+  VHC <- sandwich::vcovHC(mod)[-1, -1]
+  Xstat <- sum(b * solve(VHC, b))
+  Fstat <- Xstat / df1
+  expect_error({f <- drop_test(mod, vce = "HC")}, NA)
+  expect_s3_class(f, "htest")
+  expect_equal(f$statistic[[1]], Fstat)
+  expect_equal(f$parameter, c(df1 = df1, df2 = df2))
+  expect_equal(f$p.value, pf(Fstat, df1 = df1, df2 = df2, lower.tail = FALSE))
+
+  expect_error({X <- drop_test(mod, chisq = TRUE, vce = "HC")}, NA)
+  expect_s3_class(X, "htest")
+  expect_equal(X$statistic[[1]], Xstat)
+  expect_equal(X$parameter, c(df = df1))
+  expect_equal(X$p.value, pchisq(Xstat, df = df1, lower.tail = FALSE))
 })
 
-test_that("joint significant test (pkg sandwich hccm)", {
-  expect_s3_class(drop_test(mod, vce = vcovHC), "htest")
+test_that("joint significant test: vce is a function", {
+  F1 <- drop_test(mod, vce = "HC")
+  expect_error({F2 <- drop_test(mod, vce = vcovHC)}, NA)
+  expect_equal(F2$statistic, F1$statistic)
+  expect_equal(F2$parameter, F1$parameter)
+  expect_equal(F2$p.value, F1$p.value)
 })
 
 test_that("joint significant test (hccm matrix)", {
@@ -53,21 +70,21 @@ test_that("joint significance and *", {
 
 test_that("frml with left hand side", {
   mod2 <- lm(price ~ sqrft * lotsize + bdrms, data = hprice1)
-  expect_warning({F <- drop_test(mod2, frml = y ~ bdrms)})
-  expect_s3_class(F, "htest")
+  expect_warning({f <- drop_test(mod2, frml = y ~ bdrms)})
+  expect_s3_class(f, "htest")
 })
 
 test_that("drop a logical variable", {
   col_bool <- hprice1$colonial == 1
   mod3 <- lm(price ~ sqrft + bdrms + col_bool, data = hprice1)
-  expect_error({F <- drop_test(mod3, ~ col_bool)}, NA)
-  expect_equal(F$parameter[[1]], 1)
+  expect_error({f <- drop_test(mod3, ~ col_bool)}, NA)
+  expect_equal(f$parameter[[1]], 1)
 })
 
 test_that("drop a logical variable (no intercept)", {
   col_bool <- hprice1$colonial == 1
   mod3 <- lm(price ~ sqrft + bdrms + col_bool - 1, data = hprice1)
-  expect_error({F <- drop_test(mod3, ~ col_bool)}, NA)
-  expect_equal(F$parameter[[1]], 2)
+  expect_error({f <- drop_test(mod3, ~ col_bool)}, NA)
+  expect_equal(f$parameter[[1]], 2)
 })
 
