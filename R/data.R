@@ -250,3 +250,29 @@
 #' @docType data
 "traffic2"
 
+#' wageprc
+#'
+#' Wages and prices (macro).
+#'
+#' Data from *Economic Report of the President*, various years.
+#'
+#' @section Notes:
+#' These monthly data run from January 1964 through October 1987.
+#' The consumer price index averages to 100 in 1967. An updated
+#' set of data can be obtained electronically from
+#' [https://www.govinfo.gov/app/collection/ERP/](https://www.govinfo.gov/app/collection/ERP/).
+#'
+#' @usage data("wageprc")
+#'
+#' @format A data frame with `r nrow(wageprc)` observations.
+#' \describe{
+#'   \item{year}{1964 to 1987}
+#'   \item{month}{1 to 12}
+#'   \item{price}{consumer price index}
+#'   \item{wage}{nominal hourly wage}
+#' }
+#' @source Jeffrey M. Wooldrige (2006): *Introductory Econometrics: A Modern Approach*,
+#' 3rd ed., Thomson South-Western.
+#' @docType data
+"wageprc"
+

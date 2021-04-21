@@ -71,6 +71,19 @@ datasets <- list(
       x %>% mutate(month = rep(1:12, 9)) %>%
         relocate(month, .after = year)
     }
+  ),
+  wageprc = list(
+    file = "WAGEPRC",
+    cols = cols(price = "d", wage = "d", t = "-", lprice = "-", lwage = "-",
+                gprice = "-", gwage = "-", gwage_1 = "-", gwage_2 = "-",
+                gwage_3 = "-", gwage_4 = "-", gwage_5 = "-", gwage_6 = "-",
+                gwage_7 = "-", gwage_8 = "-", gwage_9 = "-", gwage_10 = "-",
+                gwage_11 = "-", gwage_12 = "-", gprice_1 = "-", .rest = "c"),
+    post = function(x) {
+      x %>% mutate(year = c(rep(1964:1986, each = 12), rep(1987, 10)),
+                            month = c(rep(1:12, 23), 1:10)) %>%
+        relocate(year, month)
+    }
   )
 )
 
